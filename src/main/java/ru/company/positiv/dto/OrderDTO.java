@@ -15,7 +15,7 @@ public class OrderDTO {
 
     // Один пользователь может иметь несколько заказов
     private Long userId;
-    
+
     // Один продукт может фигурировать в разных заказах
     private Long productId;
 
