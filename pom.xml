@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.company</groupId>
-	<artifactId>positiv</artifactId>
+	<artifactId>pozitiv</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>positiv</name>
 	<description>E-commerce project for selling various products, built with Spring Boot</description>
@@ -81,7 +81,17 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>3.4.3</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

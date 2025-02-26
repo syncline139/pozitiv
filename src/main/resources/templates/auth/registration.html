@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/auth/registration}" th:object="${userDTO}">
+  <label for="login">Введите логин:</label>
+  <input type="text" th:field="*{login}" id="login" required/>
+  <div style="color: red;" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка логина</div>
+  <br>
+  <label for="email">Введите электронную почту:</label>
+  <input type="email" th:field="*{email}" id="email" required/>
+  <div style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Ошибка почты</div>
+  <br>
+  <label for="password">Введите пароль:</label>
+  <input type="password" th:field="*{password}" id="password" required/>
+  <div style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка пароля</div>
+  <br>
+  <button type="submit">Зарегистрироваться</button>
+  <a th:href="@{/auth/login}" class="button"> Войти </a>
+</form>
+</body>
+</html>

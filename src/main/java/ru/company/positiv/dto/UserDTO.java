@@ -1,6 +1,7 @@
 package ru.company.positiv.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -9,9 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDTO {
-
     private Long id;
-    // Имя пользователя ( оно не являеться обязательным и устанавливаеться по желанию в личном кабинете)
+
     @Size(min = 2, max = 30, message = "Имя должно быть в пределах от 2 до 30")
     private String name;
 
@@ -21,6 +21,9 @@ public class UserDTO {
     @Email(message = "Введите корректную почту")
     private String email;
 
-    // Город пользователя ( оно не являеться обязательным и устанавливаеться по желанию в личном кабинете)
+    @NotBlank(message = "Пароль не должен быть пустым")
+    @Size(min = 6, max = 30, message = "Пароль должен быть в пределах от 6 до 30 символов")
+    private String password;
+
     private String city;
 }
