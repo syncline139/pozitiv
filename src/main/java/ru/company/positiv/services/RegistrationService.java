@@ -19,7 +19,7 @@ public class RegistrationService {
     public void register(User user) {
         String rawPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(rawPassword));
-        user.setRole("USER");
+        user.setRole("ROLE_USER");
         userRepositories.save(user);
     }
 }

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
 </head>
 <body>
 Главная страница
+
+<a th:href="@{/acc}" class="button">Личный кабинет</a>
+
+<a th:href="@{/auth/registration}">Зарегистрироваться</a>
+<a th:href="@{/auth/login}">Войти в аккаунт</a>
 </body>
 </html>

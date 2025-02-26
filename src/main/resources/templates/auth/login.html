@@ -17,7 +17,7 @@
     <br>
 
     <button type="submit">Войти</button>
-    <a th:href="@{/auth/registration}" class="button">Зарегистрироваться</a>
+    <a type="button" th:href="@{/auth/registration}"> Зарегестрироваться</a>
 
     <div th:if="${param.error}" style="color: red; margin-top: 10px;">
         Неправильное имя или пароль

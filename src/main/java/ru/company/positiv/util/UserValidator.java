@@ -23,11 +23,15 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         UserDTO userDTO = (UserDTO) target;
+        System.out.println("Валидатор вызван для объекта: " + target);
         if (userRepositories.findByEmail(userDTO.getEmail()).isPresent()) {
-            errors.rejectValue("email","","Данная электронная почта уже занята другим пользователем!");
+            errors.rejectValue("email", "", "Данная электронная почта уже занята другим пользователем!");
         }
         if (userRepositories.findByLogin(userDTO.getLogin()).isPresent()) {
-            errors.rejectValue("login","","Данный логин уже занят другим пользователем!");
+            errors.rejectValue("login", "", "Данный логин уже занят другим пользователем!");
+        }
+        if (userRepositories.findByLogin(userDTO.getLogin()).isEmpty()) {
+            errors.rejectValue("login", "", "Пользователь с данным логином не зарегистрирован");
         }
 
     }

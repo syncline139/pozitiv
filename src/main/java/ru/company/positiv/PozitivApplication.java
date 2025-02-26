@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class PositivApplication {
+public class PozitivApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PositivApplication.class, args);
+		SpringApplication.run(PozitivApplication.class, args);
 
 	}
 	@Bean

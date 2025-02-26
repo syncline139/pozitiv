@@ -33,7 +33,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Шифрование пароля
     }
 
     @Bean
@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // Все остальное требует аутентификации
                 )
                 .formLogin(form -> form
-                        .loginPage("/auth/login") // Страница логина
+                        .loginPage("/") // мЕНЮ
                         .loginProcessingUrl("/process_login") // URL обработки логина
                         .defaultSuccessUrl("/", true) // Перенаправление после входа
                         .failureUrl("/auth/login?error=true") // Если ошибка
