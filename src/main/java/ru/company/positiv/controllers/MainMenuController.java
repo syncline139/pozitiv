@@ -15,14 +15,4 @@ public class MainMenuController {
         return "/mainScreen";
     }
 
-    @GetMapping("/acc") // Личный кабинет пользователя
-    public String myAccount(Model model, Principal principal) {
-        if (principal != null) {
-            String login = principal.getName(); // Получаем логин аутентифицированного пользователя
-            model.addAttribute("login", login);
-        } else {
-            return "redirect:/auth/login"; 
-        }
-        return "/personalAccount/myAccount";
-    }
 }

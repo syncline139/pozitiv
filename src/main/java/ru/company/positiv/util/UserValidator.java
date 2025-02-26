@@ -30,9 +30,7 @@ public class UserValidator implements Validator {
         if (userRepositories.findByLogin(userDTO.getLogin()).isPresent()) {
             errors.rejectValue("login", "", "Данный логин уже занят другим пользователем!");
         }
-        if (userRepositories.findByLogin(userDTO.getLogin()).isEmpty()) {
-            errors.rejectValue("login", "", "Пользователь с данным логином не зарегистрирован");
-        }
+
 
     }
 }

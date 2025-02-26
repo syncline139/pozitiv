@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -44,4 +45,6 @@ public class User {
 
     @Column(name = "role")
     private String role;
+    @Column(name = "registered_at")
+    private LocalDateTime registeredAt;
 }
