@@ -1,10 +1,7 @@
 package ru.company.positiv.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -34,6 +31,9 @@ public class User {
     private String email;
 
     @Column(name = "city")
+    @Pattern(
+            regexp = "^[A-Za-zА-Яа-яЁё\\d/\\s.\\-]+$",
+            message = "Некорректный ввод, Пример: Москва/Пушкино д1.кв 7")
     private String city;
 
     @Column(name = "last_connect")
@@ -47,4 +47,6 @@ public class User {
     private String role;
     @Column(name = "registered_at")
     private LocalDateTime registeredAt;
+
+
 }

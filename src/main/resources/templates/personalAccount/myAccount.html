@@ -6,17 +6,26 @@
 </head>
 <body>
 <h2>Личный кабинет</h2>
-<p>Добро пожаловать, <span th:text="${login}">Пользователь</span>!</p>
-<a>Подробнее о вас</a>
+<a>Подробнее о вас:</a>
+<br/>
+<a>Логин: <span th:text="${login}">Логин пользователя</span></a>
+<br/>
+<a>Электронная почта: <span th:text="${email}">Логин пользователя</span></a>
+<br/>
+<a>Адрес проживания: <span th:text="${city}">Адрес пользваотеля</span></a>
+<br/>
+<a>Ваше имя: <span th:text="${name}">Имя пользователя</span></a>
 <br/>
 <form th:method="POST" th:action="@{/acc}" th:object="${userDTO}">
     <label for="city">Введите ваш адрес(на него будут приходить заказы)</label>
     <input type="text" th:field="*{city}" id="city" required/>
     <div style="color: red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Ошибка заполнения</div>
     <br>
-
+    <label for="name">Ваше имя:</label>
+    <input type="text" th:field="*{name}" id="name" required/>
+    <div style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка заполнения</div>
+    <br>
     <button type="submit" name="action" value="save">Сохранить</button>
-    <button type="submit" name="action" value="cancel">Отмена</button>
 </form>
 </body>
 </html>

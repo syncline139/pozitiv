@@ -1,9 +1,6 @@
 package ru.company.positiv.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +21,9 @@ public class UserDTO {
     @NotBlank(message = "Пароль не должен быть пустым")
     @Size(min = 6, max = 30, message = "Пароль должен быть в пределах от 6 до 30 символов")
     private String password;
-
+    @Pattern(
+            regexp = "^[A-Za-zА-Яа-яЁё\\d/\\s.\\-]+$",
+            message = "Некорректный ввод, Пример: Москва/Пушкино д1.кв 7")
     private String city;
+
 }

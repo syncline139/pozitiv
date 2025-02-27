@@ -18,15 +18,16 @@ public class ProfileServicesImpl implements ProfileServices {
 
     @Override
     public void save(UserDTO userDTO) {
-        // Получаем логин текущего пользователя из контекста безопасности
+        // Получаем логин текущего пользователя
         String currentLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // Загружаем пользователя из БД по логину
         User user = userRepositories.findByLogin(currentLogin)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Пользовательно не найден"));
 
         // Обновляем только поле city из DTO
         user.setCity(userDTO.getCity());
+        user.setName(userDTO.getName());
 
         // Сохраняем обновленного пользователя в базе
         userRepositories.save(user);
