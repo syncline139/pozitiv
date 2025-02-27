@@ -1,7 +1,7 @@
 package ru.company.positiv.services;
 
-import org.springframework.stereotype.Service;
+import ru.company.positiv.dto.UserDTO;
 
-@Service
-public class ProfileServices {
+public interface ProfileServices {
+    void save(UserDTO userDTO);
 }

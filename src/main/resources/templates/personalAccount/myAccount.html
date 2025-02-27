@@ -7,9 +7,16 @@
 <body>
 <h2>Личный кабинет</h2>
 <p>Добро пожаловать, <span th:text="${login}">Пользователь</span>!</p>
-
 <a>Подробнее о вас</a>
 <br/>
+<form th:method="POST" th:action="@{/acc}" th:object="${userDTO}">
+    <label for="city">Введите ваш адрес(на него будут приходить заказы)</label>
+    <input type="text" th:field="*{city}" id="city" required/>
+    <div style="color: red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Ошибка заполнения</div>
+    <br>
 
+    <button type="submit" name="action" value="save">Сохранить</button>
+    <button type="submit" name="action" value="cancel">Отмена</button>
+</form>
 </body>
 </html>
