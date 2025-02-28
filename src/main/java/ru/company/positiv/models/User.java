@@ -19,6 +19,7 @@ public class User {
 
     @Column(name = "name")
     @Size(min = 2, max = 30, message = "Имя должно быть в пределах от 2 до 30")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё\\s\\-]+$", message = "Некорректное имя")
     private String name;
 
     @Column(name = "login")
@@ -31,9 +32,7 @@ public class User {
     private String email;
 
     @Column(name = "city")
-    @Pattern(
-            regexp = "^[A-Za-zА-Яа-яЁё\\d/\\s.\\-]+$",
-            message = "Некорректный ввод, Пример: Москва/Пушкино д1.кв 7")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё\\d/\\s.\\-]+$", message = "Некорректный адрес")
     private String city;
 
     @Column(name = "last_connect")

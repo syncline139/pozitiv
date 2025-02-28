@@ -5,7 +5,7 @@
   <title>Регистрация</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/auth/registration}" th:object="${userDTO}">
+<form th:method="POST" th:action="@{/auth/registration}" th:object="${registrationDTO}">
   <label for="login">Введите логин:</label>
   <input type="text" th:field="*{login}" id="login" required/>
   <div style="color: red;" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка логина</div>

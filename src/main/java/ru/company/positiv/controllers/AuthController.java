@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.company.positiv.dto.RegistrationDTO;
 import ru.company.positiv.dto.UserDTO;
 import ru.company.positiv.models.User;
 import ru.company.positiv.repositories.UserRepositories;
@@ -37,24 +39,26 @@ public class AuthController {
 
     @GetMapping("/registration") // Выводит страницу
     public String registrationPage(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
+        model.addAttribute("registrationDTO", new RegistrationDTO());
         return "auth/registration";
     }
 
     @PostMapping("/registration") //  Авторизируем пользователя
-    public String performRegistration(@Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
-        userValidator.validate(userDTO, bindingResult);
+    public String performRegistration(@Valid RegistrationDTO registrationDTO, BindingResult bindingResult, Model model) {
+        userValidator.validate(registrationDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userDTO", userDTO);
+            model.addAttribute("registrationDTO", registrationDTO);
             return "auth/registration";
         }
-        User user = convertToUser(userDTO);
+        User user = convertToUser(registrationDTO);
         authService.register(user);
         return "redirect:/auth/login";
     }
 
-    private User convertToUser(UserDTO userDTO) {
-        return modelMapper.map(userDTO, User.class);
+    private User convertToUser(RegistrationDTO registrationDTO) {
+        return modelMapper.map(registrationDTO, User.class);
     }
+
+
 }

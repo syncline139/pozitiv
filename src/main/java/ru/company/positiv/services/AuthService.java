@@ -18,6 +18,10 @@ public class AuthService {
     private final UserRepositories userRepositories;
     private final PasswordEncoder passwordEncoder;
 
+    /*
+     * Регестрация пользователя, его пароль шифруеться,
+     * выдаеться роль и вычесляеться дата регестрации!
+     */
     @Transactional
     public void register(User user) {
         String rawPassword = user.getPassword();

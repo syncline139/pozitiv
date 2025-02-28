@@ -6,26 +6,38 @@
 </head>
 <body>
 <h2>Личный кабинет</h2>
-<a>Подробнее о вас:</a>
-<br/>
-<a>Логин: <span th:text="${login}">Логин пользователя</span></a>
-<br/>
-<a>Электронная почта: <span th:text="${email}">Логин пользователя</span></a>
-<br/>
-<a>Адрес проживания: <span th:text="${city}">Адрес пользваотеля</span></a>
-<br/>
-<a>Ваше имя: <span th:text="${name}">Имя пользователя</span></a>
-<br/>
-<form th:method="POST" th:action="@{/acc}" th:object="${userDTO}">
-    <label for="city">Введите ваш адрес(на него будут приходить заказы)</label>
+<p>Подробнее о вас:</p>
+<p>Логин: <span th:text="${login}">Логин пользователя</span></p>
+<p>Электронная почта: <span th:text="${email}">Электронная почта</span></p>
+<p>Адрес проживания: <span th:text="${city}">Адрес пользователя</span></p>
+<p>Ваше имя: <span th:text="${name}">Имя пользователя</span></p>
+
+<!-- Форма для редактирования профиля -->
+<form th:method="POST" th:action="@{/acc/updateProfile}" th:object="${userDTO}">
+    <label for="city">Введите ваш адрес (на него будут приходить заказы):</label>
     <input type="text" th:field="*{city}" id="city" required/>
-    <div style="color: red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Ошибка заполнения</div>
+    <div style="color: red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
     <br>
     <label for="name">Ваше имя:</label>
     <input type="text" th:field="*{name}" id="name" required/>
-    <div style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка заполнения</div>
+    <div style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br>
-    <button type="submit" name="action" value="save">Сохранить</button>
+    <button type="submit">Сохранить</button>
+</form>
+
+<br/><br/><br/>
+
+<!-- Форма для смены пароля -->
+<form th:method="POST" th:action="@{/acc/updatePassword}" th:object="${passwordChangeDTO}">
+    <label for="oldPassword">Введите ваш старый пароль:</label>
+    <input type="password" th:field="*{oldPassword}" id="oldPassword" required/>
+    <div style="color: red;" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></div>
+    <br>
+    <label for="newPassword">Введите ваш новый пароль:</label>
+    <input type="password" th:field="*{newPassword}" id="newPassword" required/>
+    <div style="color: red;" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
+    <br>
+    <button type="submit">Сохранить</button>
 </form>
 </body>
 </html>
