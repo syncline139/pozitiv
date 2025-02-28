@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
+    <style>
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #3498db;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-Главная страница
+<h1>Главная страница</h1>
 
-<a th:href="@{/acc}" class="button">Личный кабинет</a>
+<a th:href="@{/acc}" class="avatar">
+    <!-- Если пользователь залогинен, берем первую букву логина -->
+    <span th:if="${user != null}" th:text="${#strings.substring(user.login, 0, 1)}">U</span>
+    <!-- Если пользователь не залогинен, отображаем случайную букву -->
+    <span th:if="${user == null}" th:text="${randomLetter}">R</span>
+</a>
 
 <a th:href="@{/auth/registration}">Зарегистрироваться</a>
 <a th:href="@{/auth/login}">Войти в аккаунт</a>
