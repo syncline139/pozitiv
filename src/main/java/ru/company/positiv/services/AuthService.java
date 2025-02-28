@@ -18,7 +18,7 @@ public class AuthService {
     private final UserRepositories userRepositories;
     private final PasswordEncoder passwordEncoder;
 
-    /*
+    /**
      * Регестрация пользователя, его пароль шифруеться,
      * выдаеться роль и вычесляеться дата регестрации!
      */

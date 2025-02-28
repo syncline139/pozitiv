@@ -12,6 +12,10 @@ import ru.company.positiv.models.User;
 import ru.company.positiv.repositories.UserRepositories;
 import ru.company.positiv.util.PasswordMismatchException;
 
+/**
+ * Реализация сервиса для управления профилем пользователя.
+ * Предоставляет методы для обновления данных профиля и смены пароля.
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -20,30 +24,36 @@ public class ProfileServicesImpl implements ProfileServices {
     private final UserRepositories userRepositories;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Сохраняет обновленные данные профиля пользователя (имя и город).
+     * Использует текущий логин из контекста безопасности для идентификации пользователя.
+     *
+     * @param userDTO объект DTO с новыми данными пользователя (имя и город)
+     * @throws UsernameNotFoundException если пользователь с текущим логином не найден
+     */
     @Override
     public void save(UserDTO userDTO) {
         String currentLogin = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepositories.findByLogin(currentLogin)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
-        System.out.println("Текущий пользователь: " + user.getLogin());
-        System.out.println("Новое имя из DTO: " + userDTO.getName());
-        System.out.println("Новый город из DTO: " + userDTO.getCity());
         user.setCity(userDTO.getCity());
         user.setName(userDTO.getName());
         userRepositories.save(user);
-        System.out.println("Сохраненный пользователь: " + user);
     }
 
-    /*
-     *  сравниваем введнный старый пароль с тем который ъраниться в бд
-     * если все в порядке шифруем новый пароль и сохраняем
+    /**
+     * Обновляет пароль пользователя.
+     * Проверяет соответствие старого пароля и, при успехе, шифрует и сохраняет новый пароль.
+     *
+     * @param passwordChangeDTO объект DTO с данными старого и нового пароля
+     * @throws UsernameNotFoundException если пользователь с текущим логином не найден
+     * @throws PasswordMismatchException если старый пароль введен неверно
      */
     @Override
     public void savePassword(PasswordChangeDTO passwordChangeDTO) {
         String currentLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-
         User user = userRepositories.findByLogin(currentLogin)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользовательно не найден"));
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
         if (!passwordEncoder.matches(passwordChangeDTO.getOldPassword(), user.getPassword())) {
             throw new PasswordMismatchException("Старый пароль указан неверно!");
         }

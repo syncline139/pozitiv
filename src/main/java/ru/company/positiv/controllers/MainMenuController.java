@@ -10,8 +10,7 @@ public class MainMenuController {
 
     @GetMapping // Главный экран
     public String mainScreen(Model model) {
-        // Здесь можно, например, добавить пустой объект UserDTO, если требуется
-        model.addAttribute("login", new Object()); // или убрать, если не нужен
+        model.addAttribute("login", new Object());
         return "/mainScreen";
     }
 
