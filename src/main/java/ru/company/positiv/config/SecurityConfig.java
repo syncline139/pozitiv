@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/").permitAll() // Разрешаем доступ к страницам аутентификации
                         .requestMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers("/owner").hasRole("OWNER")
                         .anyRequest().authenticated() // Все остальное требует аутентификации
                 )
                 .formLogin(form -> form
