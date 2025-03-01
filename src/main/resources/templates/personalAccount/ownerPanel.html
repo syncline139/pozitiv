@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админка</title>
+</head>
+<body>
+<h1>Добро пожаловать!</h1>
+<form th:method="POST" th:action="@{/owner/add}" th:object="${user}">
+    <label for="userAdd">Выберите человека:</label>
+    <select th:field="*{id}" id="userAdd">
+        <option th:each="p : ${peopleNotAdmin}" th:value="${p.id}" th:text="${p.login}"></option>
+    </select>
+    <input type="submit" value="Назначить админом"/>
+</form>
+<br/>
+<form th:method="POST" th:action="@{/owner/delete}" th:object="${user}">
+    <label for="userDelete">Выберите человека:</label>
+    <select th:field="*{id}" id="userDelete">
+        <option th:each="p : ${peopleNotUser}" th:value="${p.id}" th:text="${p.login}"></option>
+    </select>
+    <input type="submit" value="Убрать с поста админа"/>
+</form>
+
+</body>
+</html>
