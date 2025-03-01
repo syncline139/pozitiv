@@ -38,6 +38,7 @@ public class ProfileServicesImpl implements ProfileServices {
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
         user.setCity(userDTO.getCity());
         user.setName(userDTO.getName());
+        user.setPhone(userDTO.getPhone());
         userRepositories.save(user);
     }
 

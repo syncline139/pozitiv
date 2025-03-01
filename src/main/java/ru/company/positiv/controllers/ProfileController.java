@@ -14,6 +14,7 @@ import ru.company.positiv.models.User;
 import ru.company.positiv.repositories.UserRepositories;
 import ru.company.positiv.services.ProfileServices;
 import ru.company.positiv.util.PasswordMismatchException;
+
 import java.security.Principal;
 
 /**
@@ -46,10 +47,10 @@ public class ProfileController {
      * Обрабатывает запрос на обновление данных профиля пользователя.
      * Проверяет валидность данных и сохраняет изменения через сервис.
      *
-     * @param userDTO          объект DTO с обновленными данными пользователя
+     * @param userDTO           объект DTO с обновленными данными пользователя
      * @param userBindingResult результат валидации данных
-     * @param model            объект для передачи данных в шаблон при ошибке
-     * @param principal        объект с информацией о текущем пользователе
+     * @param model             объект для передачи данных в шаблон при ошибке
+     * @param principal         объект с информацией о текущем пользователе
      * @return перенаправление на страницу "/acc" при успехе или возврат на страницу профиля при ошибке
      */
     @PostMapping("/updateProfile")
@@ -69,10 +70,10 @@ public class ProfileController {
      * Обрабатывает запрос на смену пароля пользователя.
      * Проверяет валидность данных и сохраняет новый пароль через сервис.
      *
-     * @param passwordChangeDTO объект DTO с данными для смены пароля
+     * @param passwordChangeDTO     объект DTO с данными для смены пароля
      * @param passwordBindingResult результат валидации данных
-     * @param model             объект для передачи данных в шаблон при ошибке
-     * @param principal         объект с информацией о текущем пользователе
+     * @param model                 объект для передачи данных в шаблон при ошибке
+     * @param principal             объект с информацией о текущем пользователе
      * @return перенаправление на страницу "/acc" при успехе или возврат на страницу профиля при ошибке
      * @throws PasswordMismatchException если старый пароль введен неверно
      */
@@ -98,6 +99,7 @@ public class ProfileController {
     /**
      * Заполняет модель данными текущего пользователя для отображения в шаблоне.
      * Использует ModelMapper для преобразования модели User в UserDTO.
+     *
      * @param model     объект для передачи данных в шаблон
      * @param principal объект с информацией о текущем пользователе
      * @throws UsernameNotFoundException если пользователь с данным логином не найден
@@ -112,6 +114,7 @@ public class ProfileController {
             model.addAttribute("email", currentUser.getEmail());
             model.addAttribute("city", currentUser.getCity());
             model.addAttribute("name", currentUser.getName());
+            model.addAttribute("phone", currentUser.getPhone());
         }
     }
 }

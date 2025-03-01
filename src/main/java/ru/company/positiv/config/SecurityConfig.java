@@ -16,6 +16,7 @@ import ru.company.positiv.repositories.UserRepositories;
 import ru.company.positiv.services.CustomUserDetailsService;
 
 import java.time.LocalDateTime;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Configuration
@@ -42,6 +43,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/").permitAll() // Разрешаем доступ к страницам аутентификации
+                        .requestMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
                         .anyRequest().authenticated() // Все остальное требует аутентификации
                 )
                 .formLogin(form -> form

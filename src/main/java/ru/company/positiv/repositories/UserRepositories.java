@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.company.positiv.models.User;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -42,4 +43,12 @@ public interface UserRepositories extends JpaRepository<User, Long> {
      * Находит пользователя по его логину.
      */
     Optional<User> findByLogin(String login);
+
+    /**
+     *Находит всех пользователей у который роль не соотвествуют полученному значению
+     */
+    List<User> findAllByRoleNot(String role);
+
+
+
 }

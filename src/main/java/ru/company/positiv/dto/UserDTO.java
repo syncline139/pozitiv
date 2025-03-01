@@ -1,5 +1,6 @@
 package ru.company.positiv.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,9 @@ public class UserDTO {
 
     @Pattern(regexp = "^[A-Za-zА-Яа-яЁё\\d/\\s.\\-]+$", message = "Некорректный адрес")
     private String city;
+
+    @Column(name = "phone")
+    private String phone;
+
 
 }

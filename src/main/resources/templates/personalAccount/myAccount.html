@@ -11,6 +11,7 @@
 <p>Электронная почта: <span th:text="${email}">Электронная почта</span></p>
 <p>Адрес проживания: <span th:text="${city}">Адрес пользователя</span></p>
 <p>Ваше имя: <span th:text="${name}">Имя пользователя</span></p>
+<p>Ваш номер телефона: <span th:text="${phone}">Номер пользователя</span></p>
 
 <!-- Форма для редактирования профиля -->
 <form th:method="POST" th:action="@{/acc/updateProfile}" th:object="${userDTO}">
@@ -22,6 +23,9 @@
     <input type="text" th:field="*{name}" id="name" required/>
     <div style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     <br>
+    <label for="phone">Ваш номер телефона</label>
+    <input type="text" th:field="*{phone}" id="phone" required>
+    <div style="color: red;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
     <button type="submit">Сохранить</button>
 </form>
 

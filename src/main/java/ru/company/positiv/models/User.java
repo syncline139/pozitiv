@@ -46,6 +46,8 @@ public class User {
     private String role;
     @Column(name = "registered_at")
     private LocalDateTime registeredAt;
+    @Column(name = "phone")
+    private String phone;
 
 
 }
