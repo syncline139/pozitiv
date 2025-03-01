@@ -2,24 +2,187 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Регистрация</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация — Позитив</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css для анимаций -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    /* Основные стили страницы */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      height: 100vh;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    /* Стили для шапки с логотипом */
+    .navbar-custom {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      border-bottom: 2px solid rgba(255,215,0,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      padding: 10px 0;
+    }
+    .navbar-brand img {
+      max-height: 60px;
+      transition: transform 0.3s ease;
+    }
+    .navbar-brand:hover img {
+      transform: scale(1.1);
+    }
+    /* Стили для контейнера регистрации */
+    .registration-container {
+      background: linear-gradient(135deg, rgba(75,0,130,0.95), rgba(0,0,0,0.95));
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(255,215,0,0.6), 0 0 30px rgba(75,0,130,0.8);
+      max-width: 400px;
+      margin: 50px auto;
+      position: relative;
+      z-index: 1;
+      animation: slideInUp 1.5s ease-out;
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255,215,0,0.2);
+    }
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Стили для формы */
+    label {
+      color: #ffd700;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(255,215,0,0.8), 0 0 20px rgba(255,215,0,0.4);
+      transition: text-shadow 0.3s ease;
+    }
+    label:hover {
+      text-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 25px rgba(255,215,0,0.6);
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      background-color: rgba(26,26,26,0.85);
+      border: 3px solid #ffd700;
+      color: #fff;
+      caret-color: #fff;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 16px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+    input::placeholder {
+      color: #fff;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+    input:focus {
+      border-color: #4b0082;
+      box-shadow: 0 0 25px #4b0082, 0 0 15px #ffd700, inset 0 0 15px rgba(75,0,130,0.5);
+      background-color: rgba(26,26,26,0.95);
+      transform: scale(1.02);
+      outline: none;
+    }
+    button[type="submit"] {
+      background: linear-gradient(45deg, #ffd700, #ffec3d, #f7d358);
+      color: #000;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 18px;
+      width: 100%;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 25px rgba(255,215,0,0.8), 0 0 20px rgba(255,215,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    button[type="submit"]:hover {
+      background: linear-gradient(45deg, #4b0082, #6a0dad, #8a2be2);
+      color: #fff;
+      transform: scale(1.1);
+      box-shadow: 0 15px 35px rgba(75,0,130,0.9), 0 0 30px rgba(75,0,130,0.7);
+    }
+    button[type="submit"]:active {
+      transform: scale(0.98);
+    }
+    .error {
+      color: #ff4444;
+      font-size: 16px;
+      margin-top: 5px;
+      animation: shake 0.5s ease-in-out, pulseError 1.5s infinite;
+      text-shadow: 0 0 5px rgba(255,68,68,0.5);
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    @keyframes pulseError {
+      0% { opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { opacity: 0.8; }
+    }
+    /* Стили для блока с ссылкой "Есть аккаунт? Войти" */
+    .login-text {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .login-link {
+      color: #ffd700;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+    .login-link:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,215,0,0.8);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-<form th:method="POST" th:action="@{/auth/registration}" th:object="${registrationDTO}">
-  <label for="login">Введите логин:</label>
-  <input type="text" th:field="*{login}" id="login" required/>
-  <div style="color: red;" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка логина</div>
-  <br>
-  <label for="email">Введите электронную почту:</label>
-  <input type="email" th:field="*{email}" id="email" required/>
-  <div style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Ошибка почты</div>
-  <br>
-  <label for="password">Введите пароль:</label>
-  <input type="password" th:field="*{password}" id="password" required/>
-  <div style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка пароля</div>
-  <br>
-  <button type="submit">Зарегистрироваться</button>
-  <a th:href="@{/auth/login}" class="button"> Войти </a>
-</form>
+<!-- Верхняя шапка с логотипом -->
+<header>
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" th:href="@{/}">
+        <img th:src="@{/images/icon/oblozhka_pozitiv.png}" alt="Позитив логотип" class="img-fluid">
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- Контейнер регистрации -->
+<div class="registration-container">
+  <form th:method="POST" th:action="@{/auth/registration}" th:object="${registrationDTO}">
+    <label for="login">Введите логин:</label>
+    <input type="text" th:field="*{login}" id="login" placeholder="Логин" required/>
+    <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка логина</div>
+
+    <label for="email">Введите электронную почту:</label>
+    <input type="email" th:field="*{email}" id="email" placeholder="Электронная почта" required/>
+    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Ошибка почты</div>
+
+    <label for="password">Введите пароль:</label>
+    <input type="password" th:field="*{password}" id="password" placeholder="Пароль" required/>
+    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка пароля</div>
+
+    <button type="submit">Зарегистрироваться</button>
+  </form>
+  <p class="login-text">
+    Есть аккаунт? <a th:href="@{/auth/login}" class="login-link">Войти</a>
+  </p>
+</div>
+
+<!-- Bootstrap JS, Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

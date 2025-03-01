@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,8 +17,6 @@ import ru.company.positiv.repositories.UserRepositories;
 import ru.company.positiv.services.CustomUserDetailsService;
 
 import java.time.LocalDateTime;
-
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Configuration
 @EnableWebSecurity
@@ -42,13 +41,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/").permitAll() // Разрешаем доступ к страницам аутентификации
+                        .requestMatchers("/auth/**", "/", "/images/**", "/css/**", "/js/**").permitAll() // Разрешаем доступ ко всем статическим ресурсам, страницам аутентификации и корневой странице
                         .requestMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
                         .requestMatchers("/owner").hasRole("OWNER")
-                        .anyRequest().authenticated() // Все остальное требует аутентификации
+                        .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
                 )
                 .formLogin(form -> form
-                        .loginPage("/") // мЕНЮ
+                        .loginPage("/") // Главная страница как страница логина
                         .loginProcessingUrl("/process_login") // URL обработки логина
                         .successHandler((request, response, authentication) -> {
                             Object principal = authentication.getPrincipal(); // После успешного входа в бд обновляеться значение последнего входа

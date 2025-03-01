@@ -1,37 +1,475 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Позитив</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate.css для анимаций -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Кастомные стили -->
     <style>
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #3498db;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #3a1e67; /* Фиолетовый фон */
             color: #fff;
+            height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .nav-btn {
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        .nav-btn:hover {
+            color: #fff;
+            background: rgba(75, 0, 130, 0.3);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffd700, #ffec3d);
+            color: #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             text-decoration: none;
+            margin: 0;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
+            filter: brightness(1.2);
+        }
+        .dropdown-menu {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .dropdown-item {
+            color: #ffd700;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+        .header-contact {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-contact span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-contact a {
+            color: #ffd700;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+        .header-contact a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 15px rgba(152, 255, 152, 0.8);
+            text-decoration: none;
+        }
+        .header-contact a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #98FF98;
+            transition: width 0.3s ease;
+        }
+        .header-contact a:hover::after {
+            width: 100%;
+        }
+        .navbar-brand img {
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .navbar-brand:hover img {
+            transform: rotate(5deg) scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        }
+        .company-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
+            margin: 20px auto;
+            max-width: 1600px; /* Увеличенная ширина секции для растяжки влево и вправо */
+            animation: slideInUp 1.5s ease-out;
+        }
+        .company-text {
+            flex: 1;
+            padding-right: 20px;
+        }
+        .company-text h2 {
+            color: #ffd700;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        .company-text p {
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        .company-text ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .company-text li {
+            margin-bottom: 10px;
+        }
+        .company-image {
+            flex: 1;
+            text-align: right;
+        }
+        .company-image img {
+            max-width: 100%;
+            max-height: 1000px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7);
+            animation: fadeIn 1.5s ease-out;
+        }
+        .solutions-section {
+            padding: 40px 20px;
+            margin: 20px auto;
+            max-width: 1600px; /* Сохраняем ширину для согласованности */
+            text-align: center;
+            animation: slideInUp 1.5s ease-out;
+        }
+        .solutions-highlight {
+            color: #ffd700;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        .solutions-text {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        .solutions-text.education {
+            font-size: 1.5rem; /* Увеличенный размер для "Готовые решения для образования" */
+        }
+        .equipment-box {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
+            animation: fadeIn 1.5s ease-out;
+        }
+        .equipment-text {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        .products-section {
+            padding: 40px 20px;
+            margin: 20px auto;
+            max-width: 1600px; /* Сохраняем ширину для согласованности */
+            animation: slideInUp 1.5s ease-out;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+        .product-card {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
+            overflow: hidden;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.9), 0 0 30px rgba(75, 0, 130, 0.7);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #ffd700;
+        }
+        .product-title {
+            color: #ffd700;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            cursor: pointer;
+            transition: text-shadow 0.3s ease;
+        }
+        .product-title:hover {
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 0 0 25px rgba(255, 215, 0, 0.6);
+        }
+        .product-description {
+            color: #fff;
+            font-size: 1rem;
+            padding: 0 15px 20px;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .company-section, .solutions-section, .products-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .company-text, .company-image {
+                flex: none;
+                width: 100%;
+                padding: 0;
+            }
+            .company-image img {
+                max-height: 200px; /* Уменьшенная высота для мобильных */
+            }
+            .solutions-highlight, .solutions-text, .equipment-text, .product-title, .product-description {
+                font-size: 1.1rem; /* Уменьшенный размер текста для мобильных */
+            }
+            .solutions-text.education {
+                font-size: 1.3rem; /* Уменьшенный, но всё ещё увеличенный размер для мобильных */
+            }
+            .equipment-box, .product-card {
+                padding: 15px;
+                margin: 10px 0;
+                max-width: 100%;
+            }
+            .product-image {
+                height: 150px; /* Уменьшенная высота изображения для мобильных */
+            }
+            .product-grid {
+                grid-template-columns: 1fr; /* Одна колонка на мобильных */
+            }
         }
     </style>
 </head>
 <body>
-<h1>Главная страница</h1>
+<!-- Шапка с аватаром и контактами -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <!-- Логотип -->
+        <a class="navbar-brand" href="#" th:href="@{/}">
+            <img th:src="@{/images/icon/oblozhka_pozitiv.png}" alt="Позитив логотип" class="img-fluid" style="max-height: 60px; animation: bounceIn 1.5s ease-in;">
+        </a>
+        <!-- Контакты -->
+        <div class="ms-auto header-contact">
+            <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
+            <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
+            <span class="ms-3">
+                <div class="dropdown">
+                    <a class="avatar" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:if="${user != null}" th:text="${#strings.substring(user.login, 0, 1)}">U</span>
+                        <span th:if="${user == null}" th:text="${randomLetter}">R</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
+                        <!-- Для анонимных пользователей -->
+                        <li sec:authorize="isAnonymous()">
+                            <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a class="dropdown-item" th:href="@{/auth/login}">Войти в аккаунт</a>
+                        </li>
+                        <!-- Для аутентифицированного пользователя с ролью USER -->
+                        <li sec:authorize="isAuthenticated() and hasAnyRole('USER','OWNER','ADMIN')">
+                            <a class="dropdown-item" th:href="@{/acc}">Личный кабинет</a>
+                        </li>
+                        <!-- Для администраторов -->
+                        <li sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+                            <a class="dropdown-item" th:href="@{/admin}">Панель администратора</a>
+                        </li>
+                        <!-- Для основателей -->
+                        <li sec:authorize="hasRole('OWNER')">
+                            <a class="dropdown-item" th:href="@{/owner}">Панель основателя</a>
+                        </li>
+                    </ul>
+                </div>
+                Время работы: Пн-Пт: 9:00–18:00
+            </span>
+        </div>
+    </div>
+</nav>
 
-<a th:href="@{/acc}" class="avatar">
-    <!-- Если пользователь залогинен, берем первую букву логина -->
-    <span th:if="${user != null}" th:text="${#strings.substring(user.login, 0, 1)}">U</span>
-    <!-- Если пользователь не залогинен, отображаем случайную букву -->
-    <span th:if="${user == null}" th:text="${randomLetter}">R</span>
-</a>
+<!-- Навигационное меню -->
+<div class="nav-menu">
+    <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
+    <a href="#" th:href="@{/offices}" class="nav-btn">Наши офисы</a>
+    <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
+    <a href="#" th:href="@{/contacts}" class="nav-btn">Контакты</a>
+</div>
 
-<a th:href="@{/auth/registration}">Зарегистрироваться</a>
-<a th:href="@{/auth/login}">Войти в аккаунт</a>
-<a th:href="@{/owner}">Панель основателя</a>
-<a th:href="@{/admin}">Панель основателя</a>
+<!-- Секция с текстом и изображением -->
+<div class="company-section">
+    <div class="company-text">
+        <h2>Компания «Позитив»</h2>
+        <p>С 2006 года наша компания специализируется на комплексном оснащении образовательных учреждений и имеет ряд преимуществ:</p>
+        <ul style="list-style: none; padding-left: 0;">
+            <li style="margin-bottom: 10px;">- Работаем в соответствии с 44-ФЗ и 223-ФЗ о закупках, обеспечиваем полную прозрачность и законность всех процессов закупки.</li>
+            <li style="margin-bottom: 10px;">- Осуществляем доставку до двери.</li>
+            <li style="margin-bottom: 10px;">- Совершаем оперативные поставки техники и оборудования в любой уголок России.</li>
+            <li style="margin-bottom: 10px;">- Ассортимент постоянно обновляется и расширяется, позволяя соответствовать ожиданиям и своевременно реагировать на запросы наших клиентов.</li>
+            <li style="margin-bottom: 10px;">- Являемся бизнес-партнерами крупных IT-брендов, что позволяет нам предлагать актуальный ассортимент по приемлемой цене в кратчайшие сроки.</li>
+        </ul>
+    </div>
+    <div class="company-image">
+        <img th:src="@{/images/Pozitiv2.jpg}" alt="Позитив 2" class="img-fluid">
+    </div>
+</div>
+
+<!-- Новая секция с предложениями -->
+<div class="solutions-section">
+    <div class="solutions-highlight">Предлагаем</div>
+    <div class="solutions-text">готовые решения в сфере информационных технологий для бизнеса, государственных учреждений и частных лиц</div>
+    <div class="equipment-box">
+        <div class="equipment-text">Техника и оборудование</div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <div class="solutions-text education">Готовые решения для образования</div>
+</div>
+
+<!-- Секция с карточками товаров -->
+<div class="products-section">
+    <div class="product-grid">
+        <!-- Карточка 1: Точка Роста -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/toshka_rosta.jpg}" alt="Точка Роста" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/tochka-rosta'">Точка Роста</h3>
+            <p class="product-description">Учебные кабинеты по предметным областям "Технология", "ОБЗР", "Математика и информатика", "Химия, физика, биология" и "Физическая культура".</p>
+        </div>
+
+        <!-- Карточка 2: ОБЗР -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/all.jpg}" alt="ОБЗР" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/obzr'">ОБЗР</h3>
+            <p class="product-description">Интерактивный тир, БПЛА, макеты оружия, наборы защиты, тренажеры для оказания первой помощи.</p>
+        </div>
+
+        <!-- Карточка 3: Профильные классы -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/m_height_1x.jpeg}" alt="Профильные классы" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/profile-classes'">Профильные классы</h3>
+            <p class="product-description">Медико-биологический, агрокласс, юридический класс, психолого-педагогический класс.</p>
+        </div>
+
+        <!-- Карточка 4: Медиакласс -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/snimok_ekrana_2024_10_15_100854_2x_1x.jpg}" alt="Медиакласс" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/mediaklass'">Медиакласс</h3>
+            <p class="product-description">Пространство, оснащённое мультимедийным оборудованием для записи и монтажа аудио- и видеоконтента.</p>
+        </div>
+
+        <!-- Карточка 5: Принтеры, ноутбуки, проекторы -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/proektory_printery_pozitiv_rus_1x_1x.jpg}" alt="Принтеры, ноутбуки, проекторы" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/printers-laptops-projectors'">Принтеры, ноутбуки, проекторы</h3>
+            <p class="product-description">Для мобильных и стационарных классов, российского и иностранного производства.</p>
+        </div>
+
+        <!-- Карточка 6: Интерактивное оборудование -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/interaktivnyy_stol_pozitiv_rus_1x_1x.jpg}" alt="Интерактивное оборудование" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/interactive-equipment'">Интерактивное оборудование</h3>
+            <p class="product-description">Интерактивные доски, интерактивные панели, сенсорные столы, интерактивный пол.</p>
+        </div>
+
+        <!-- Карточка 7: Учебная мебель -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/snimok_ekrana_2024_10_07_152901_1x.jpg}" alt="Учебная мебель" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/furniture'">Учебная мебель</h3>
+            <p class="product-description">Парты, доски, стулья и скамьи, системы хранения, гардероб, мебель для столовых.</p>
+        </div>
+
+        <!-- Карточка 8: Робототехника -->
+        <div class="product-card">
+            <img th:src="@{/images/icon/robototekhnika_pozitiv_rus_1x_2x.jpg}" alt="Робототехника" class="product-image">
+            <h3 class="product-title" onclick="window.location.href='/product/robotics'">Робототехника</h3>
+            <p class="product-description">Для школ и детских садов: Lego Education, Robbo, Makeblock, КУБО, электронные конструкторы.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
