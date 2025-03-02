@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рельсовые системы и раздвижные доски | Позитив</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate.css для анимаций -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Кастомные стили -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #3a1e67; /* Фиолетовый фон */
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+        }
+        /* Шапка и навигация */
+        .navbar-custom {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+        }
+        .navbar-brand img {
+            height: 60px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .navbar-brand:hover img {
+            transform: rotate(5deg) scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        }
+        .header-contact {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+        .header-contact span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-contact a {
+            color: #ffd700;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+        .header-contact a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 15px rgba(152, 255, 152, 0.8);
+        }
+        .header-contact a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #98FF98;
+            transition: width 0.3s ease;
+        }
+        .header-contact a:hover::after {
+            width: 100%;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .nav-btn {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        .nav-btn:hover {
+            color: #fff;
+            background: rgba(75, 0, 130, 0.3);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+        /* Секция с товарами */
+        .product-showcase {
+            padding: 40px 20px;
+            margin: 20px auto;
+            max-width: 1600px;
+            text-align: center;
+            animation: slideInUp 1.5s ease-out;
+        }
+        .showcase-title {
+            color: #ffd700;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 50px;
+            animation: pulse 2s infinite;
+        }
+        .product-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            animation: fadeIn 1s ease-out;
+        }
+        .product-row:nth-child(odd) {
+            flex-direction: row;
+        }
+        .product-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .product-text {
+            flex: 1;
+            padding: 0 30px;
+            text-align: left;
+        }
+        .product-row:nth-child(even) .product-text {
+            text-align: right;
+        }
+        .product-title {
+            color: #ffd700;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            margin-bottom: 15px;
+        }
+        .product-description {
+            color: #fff;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            line-height: 1.6;
+        }
+        .product-image {
+            flex: 1;
+            max-width: 450px;
+        }
+        .product-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+        }
+        /* Секция контактов как в первом коде */
+        .contacts-section {
+            padding: 60px 20px;
+            margin: 40px auto;
+            max-width: 1600px;
+            text-align: center;
+            background: linear-gradient(135deg, #4b0082, #000);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
+            animation: slideInUp 1.5s ease-out;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        .contacts-title {
+            color: #ffd700;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        .contacts-text {
+            color: #fff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            margin: 0.5rem 0;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .footer-nav a {
+            color: #ffd700;
+            font-size: 1rem;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .footer-nav a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 10px rgba(152, 255, 152, 0.8);
+        }
+        .footer-copyright {
+            color: #fff;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            margin-top: 1rem;
+        }
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .product-row {
+                flex-direction: column;
+                margin-bottom: 40px;
+            }
+            .product-row:nth-child(even) {
+                flex-direction: column;
+            }
+            .product-text {
+                text-align: center;
+                padding: 0 10px;
+            }
+            .product-title {
+                font-size: 1.5rem;
+            }
+            .product-description {
+                font-size: 1rem;
+            }
+            .product-image {
+                max-width: 300px;
+            }
+            .showcase-title {
+                font-size: 2rem;
+            }
+            .contacts-title {
+                font-size: 1.5rem;
+            }
+            .contacts-text, .footer-nav a {
+                font-size: 1rem;
+            }
+            .footer-copyright {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Шапка с логотипом и контактами -->
+<nav class="navbar-custom d-flex justify-content-between align-items-center">
+    <a class="navbar-brand" th:href="@{/}">
+        <img th:src="@{/images/icon/oblozhka_pozitiv.png}" src="images/icon/oblozhka_pozitiv.png" alt="Позитив логотип" class="img-fluid">
+    </a>
+    <div class="header-contact">
+        <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
+        <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
+    </div>
+</nav>
+
+<!-- Навигационное меню -->
+<div class="nav-menu">
+    <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
+    <a href="#" th:href="@{offices}" class="nav-btn">Наши офисы</a>
+    <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
+</div>
+
+<!-- Секция с товарами -->
+<div class="product-showcase">
+    <h2 class="showcase-title">Рельсовые системы и раздвижные доски</h2>
+
+    <!-- Товар: Варианты конструкций -->
+    <div class="product-row">
+        <div class="product-text">
+            <a href="/product/construction-types">
+                <h3 class="product-title">Варианты конструкций</h3>
+            </a>
+            <p class="product-description">В ассортименте – 4 модельных ряда рельсовых систем в десятках различных комплектаций и несколько вариантов подъемных учебных досок, такие системы можно уверенно отнести к здоровьесберегающему оборудованию для учебных классов, способствующему, при этом, повышению качества обучения.</p>
+        </div>
+        <div class="product-image">
+            <img th:src="@{/images/sliding-solutions/ppp_1x.png}" src="images/sliding-solutions/ppp_1x.png" alt="Варианты конструкций">
+        </div>
+    </div>
+
+    <!-- Товар: Система “Ascet 1.2” -->
+    <div class="product-row">
+        <div class="product-text">
+            <a href="/product/ascet-12">
+                <h3 class="product-title">Система “Ascet 1.2”</h3>
+            </a>
+            <p class="product-description">Отличительной особенностью этого модельного ряда является крепление рельсовых досок к колесным кареткам нижней частью, что обеспечивает всю весовую нагрузку на нижнюю часть рамки доски и создает условия для длительной эксплуатации. Расположение направляющих с тыльной стороны передвижных досок обеспечивает идеальные условия для непопадания меловой пыли внутрь профиля с колесными каретками. Предельно облегченная конструкция, в которой направляющие для рельсовых досок одновременно являются каркасом для неподвижных досок, обеспечивает минимальный вес по сравнению со всеми другими подобными системами, что важно для современных, относительно слабых стен.</p>
+        </div>
+        <div class="product-image">
+            <img th:src="@{/images/sliding-solutions/8_1x.png}" src="images/sliding-solutions/8_1x.png" alt="Система Ascet 1.2">
+            <img th:src="@{/images/sliding-solutions/9_1x.png}" src="images/sliding-solutions/9_1x.png" alt="Система Ascet 1.2 дополнительно" style="margin-top: 10px;">
+        </div>
+    </div>
+
+    <!-- Товар: Система “Slide” -->
+    <div class="product-row">
+        <div class="product-text">
+            <a href="/product/slide">
+                <h3 class="product-title">Система “Slide”</h3>
+            </a>
+            <p class="product-description">Основные особенности движения досок - скольжением (без колёсных кареток), что создает движение с небольшим усилием и обеспечивает устойчивое положение рельсовых досок в любом месте остановки, встроенный в корпус в направляющей-рельса плакатный держатель создает дополнительную методическую возможность без дополнительных устройств, легкое сочетание досок любых размеров, простота сборки. Для «сложных» классов (классы с фронтальной стеной с недостаточной шириной для установки полноразмерной рельсовой системы), могут быть реализованы компактные системы с одной и двумя движущимися досками, как в виде однорядной так и двухрядной рельсовых систем. Сложными можно считать классы, в которых требуется заполнить большую ширину стены большими учебными досками, ниже фотографии учебных классов для таких условий на базе двухрядного рельса с плакатным держателем.</p>
+        </div>
+        <div class="product-image">
+            <img th:src="@{/images/sliding-solutions/6_1x.jpg}" src="images/sliding-solutions/6_1x.jpg" alt="Система Slide">
+            <img th:src="@{/images/sliding-solutions/7_1x.jpg}" src="images/sliding-solutions/7_1x.jpg" alt="Система Slide дополнительно" style="margin-top: 10px;">
+        </div>
+    </div>
+
+    <!-- Товар: Системы “Lift” -->
+    <div class="product-row">
+        <div class="product-text">
+            <a href="/product/lift">
+                <h3 class="product-title">Системы “Lift”</h3>
+            </a>
+            <p class="product-description">Подъемные доски являются высшим уровнем учебных досок за счет комфорта при нанесении надписей. Общепризнанная полезность таких конструкций заключается в возможности сохранения изложенного материала на все время его обсуждения и освоения. Мобильные подъемные доски: Особый зрительный комфорт просмотра надписей на подъемной доске становится доступен в необорудованных помещениях при использовании таких систем на мобильных конструкциях – стойках. Остается возможность совмещения одинарных досок в пару по подобии с настенными вариантами. Особое удобство возникает для преподавателей, за счет того, что они могут переходить с демонстраций материала на учебной доске на работу на интерактивной ЖК-панели не сходя с места.</p>
+        </div>
+        <div class="product-image">
+            <img th:src="@{/images/sliding-solutions/10_1x.png}" src="images/sliding-solutions/10_1x.png" alt="Системы Lift">
+            <img th:src="@{/images/sliding-solutions/13_1x.png}" src="images/sliding-solutions/13_1x.jpg" alt="Системы Lift дополнительно" style="margin-top: 10px;">
+        </div>
+    </div>
+
+    <!-- Товар: Системы “Doors” -->
+    <div class="product-row">
+        <div class="product-text">
+            <a href="/product/doors">
+                <h3 class="product-title">Системы “Doors”</h3>
+            </a>
+            <p class="product-description">Мебельный декоративный фасад скрывает детали соединения с узлами движения. Особенности конструкции позволяют устанавливать интерактивные системы с высотой большей высоты досок. Конструктивные особенности этих систем позволяют: интегрировать их в ниши и шкафы, обеспечивая любую ширину и размеры досок в большом диапазоне. На фото выше рельсовая система шириной 6,0 метра с размерами досок 120х150 см, установленные в архитектурной нише с интерактивной ЖК-панелью 86 дюймов; легко создавать движение досок в 2 и более рядов, что бывает актуально для случаев, когда места на стене очень мало или если необходимы большие суммарные поверхности, когда есть необходимость много писать и сохранять написанное на время обсуждения и запоминания (математика, программирование, физика).</p>
+        </div>
+        <div class="product-image">
+            <img th:src="@{/images/sliding-solutions/2_1x.png}" src="images/sliding-solutions/2_1x.png" alt="Системы Doors">
+            <img th:src="@{/images/sliding-solutions/4_1x.png}" src="images/sliding-solutions/4_1x.png" alt="Системы Doors дополнительно" style="margin-top: 10px;">
+        </div>
+    </div>
+</div>
+
+<!-- Секция контактов как в первом коде -->
+<div class="contacts-section">
+    <h2 class="contacts-title">Наши контакты</h2>
+    <p class="contacts-text">Мы всегда на связи!</p>
+    <p class="contacts-text">Адрес: Приморский край, г. Уссурийск, ул. Горького, 101</p>
+    <p class="contacts-text">Тел.: +7 (423) 438-45-01</p>
+    <p class="contacts-text">Email: <a href="mailto:site@pozitivrus.ru" style="color: #ffd700;">site@pozitivrus.ru</a></p>
+    <div class="footer-nav">
+        <a href="#">Главная</a>
+        <a href="#">Ассортимент</a>
+        <a href="#">Преимущества</a>
+        <a href="#">Партнеры</a>
+        <a href="#">Магазины</a>
+        <a href="#">Наши офисы</a>
+        <a href="#">Обратная связь</a>
+        <a href="#">Написать нам</a>
+    </div>
+    <p class="footer-copyright">© 2006-2025 ИП Малахов В.А.</p>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

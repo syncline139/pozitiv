@@ -1,13 +1,10 @@
 package ru.company.positiv.models;
 
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 @Entity
 @Table(name = "products")
 @Getter
@@ -15,22 +12,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-    // id продукта
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //  Название продукта
-    @Column(name = "name")
     @NotEmpty(message = "Введите название продукта")
+    @Column(name = "name")
     private String name;
 
-    // Описание ( может хранить очень много текста )
-    @Lob
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    // Количество товара на складе
+    @Min(value = 0, message = "Количество не может быть отрицательным")
     @Column(name = "quantity")
     private Long quantity;
+
+    @Min(value = 0, message = "Цена не может быть отрицательной")
+    @Column(name = "price")
+    private double price;
 }

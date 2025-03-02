@@ -41,7 +41,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/", "/images/**", "/css/**", "/js/**").permitAll() // Разрешаем доступ ко всем статическим ресурсам, страницам аутентификации и корневой странице
+                        .requestMatchers("/auth/**", "/", "/images/**", "/css/**", "/js/**", "/page/**").permitAll() // Разрешаем доступ ко всем статическим ресурсам, страницам аутентификации и корневой странице
                         .requestMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
                         .requestMatchers("/owner").hasRole("OWNER")
                         .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
