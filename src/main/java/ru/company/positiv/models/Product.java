@@ -30,5 +30,5 @@ public class Product {
 
     @Min(value = 0, message = "Цена не может быть отрицательной")
     @Column(name = "price")
-    private double price;
+    private Double price;
 }

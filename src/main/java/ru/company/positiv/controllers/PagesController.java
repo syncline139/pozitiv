@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PagesController {
 
 
-    // sliding-solutions
     @GetMapping("/sliding-solutions")
     public String slidingSolutions() {
         return "pages/sliding-solutions";

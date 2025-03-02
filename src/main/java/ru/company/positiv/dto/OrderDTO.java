@@ -21,6 +21,6 @@ public class OrderDTO {
 
     // Дата создания заявки
     private LocalDateTime orderDate;
-    // Статус заявки «new», «processing», «completed»
+
     private String status;
 }

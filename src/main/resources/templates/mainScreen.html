@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Позитив</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Animate.css для анимаций -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <!-- Кастомные стили -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #3a1e67; /* Фиолетовый фон */
+            background: #3a1e67;
             color: #fff;
             height: 100vh;
             overflow-x: hidden;
@@ -55,12 +51,12 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: #fff; /* Белый фон */
-            color: #000; /* Черный цвет иконки */
+            background: #fff;
+            color: #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px; /* Размер иконки */
+            font-size: 28px;
             text-decoration: none;
             margin: 0;
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
@@ -637,39 +633,33 @@
     </style>
 </head>
 <body>
-<!-- Шапка с аватаром и контактами -->
+
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
-        <!-- Логотип -->
         <a class="navbar-brand" href="#" th:href="@{/}">
             <img th:src="@{/images/icon/oblozhka_pozitiv.png}" alt="Позитив логотип" class="img-fluid" style="max-height: 60px; animation: bounceIn 1.5s ease-in;">
         </a>
-        <!-- Контакты -->
         <div class="ms-auto header-contact">
             <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
             <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
             <span class="ms-3">
                 <div class="dropdown">
                     <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i> <!-- Иконка профиля -->
+                        <i class="bi bi-person-fill"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
-                        <!-- Для анонимных пользователей -->
                         <li sec:authorize="isAnonymous()">
                             <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
                         </li>
                         <li sec:authorize="isAnonymous()">
                             <a class="dropdown-item" th:href="@{/auth/login}">Войти в аккаунт</a>
                         </li>
-                        <!-- Для аутентифицированного пользователя с ролью USER -->
                         <li sec:authorize="isAuthenticated() and hasAnyRole('USER','OWNER','ADMIN')">
                             <a class="dropdown-item" th:href="@{/acc}">Личный кабинет</a>
                         </li>
-                        <!-- Для администраторов -->
                         <li sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
                             <a class="dropdown-item" th:href="@{/admin}">Панель администратора</a>
                         </li>
-                        <!-- Для основателей -->
                         <li sec:authorize="hasRole('OWNER')">
                             <a class="dropdown-item" th:href="@{/owner}">Панель основателя</a>
                         </li>
@@ -681,14 +671,13 @@
     </div>
 </nav>
 
-<!-- Навигационное меню -->
 <div class="nav-menu">
     <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
     <a href="#" th:href="@{/page/offices}" class="nav-btn">Наши офисы</a>
-    <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
+    <a class="nav-btn" sec:authorize="isAnonymous()" th:href="@{/auth/registration}">Интернет-магазин</a>
+    <a class="nav-btn" sec:authorize="isAuthenticated()" th:href="@{/store}">Интернет-магазин</a>
 </div>
 
-<!-- Секция с текстом и изображением -->
 <div class="company-section">
     <div class="company-text">
         <h2>Компания «Позитив»</h2>
@@ -706,7 +695,6 @@
     </div>
 </div>
 
-<!-- Новая секция с предложениями -->
 <div class="solutions-section">
     <div class="solutions-highlight">Предлагаем</div>
     <div class="solutions-text">готовые решения в сфере информационных технологий для бизнеса, государственных учреждений и частных лиц</div>
@@ -719,68 +707,59 @@
     <div class="solutions-text education">Готовые решения для образования</div>
 </div>
 
-<!-- Секция с карточками товаров -->
 <div class="products-section">
     <div class="product-grid">
-        <!-- Карточка 1: Точка Роста -->
         <div class="product-card">
             <img th:src="@{/images/icon/toshka_rosta.jpg}" alt="Точка Роста" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/tochka-rosta'">Точка Роста</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Точка Роста</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Точка Роста</h3>
             <p class="product-description">Учебные кабинеты по предметным областям "Технология", "ОБЗР", "Математика и информатика", "Химия, физика, биология" и "Физическая культура".</p>
         </div>
-
-        <!-- Карточка 2: ОБЗР -->
         <div class="product-card">
             <img th:src="@{/images/icon/all.jpg}" alt="ОБЗР" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/obzr'">ОБЗР</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">ОБЗР</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">ОБЗР</h3>
             <p class="product-description">Интерактивный тир, БПЛА, макеты оружия, наборы защиты, тренажеры для оказания первой помощи.</p>
         </div>
-
-        <!-- Карточка 3: Профильные классы -->
         <div class="product-card">
             <img th:src="@{/images/icon/m_height_1x.jpeg}" alt="Профильные классы" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/profile-classes'">Профильные классы</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Профильные классы</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Профильные классы</h3>
             <p class="product-description">Медико-биологический, агрокласс, юридический класс, психолого-педагогический класс.</p>
         </div>
-
-        <!-- Карточка 4: Медиакласс -->
         <div class="product-card">
             <img th:src="@{/images/icon/snimok_ekrana_2024_10_15_100854_2x_1x.jpg}" alt="Медиакласс" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/mediaklass'">Медиакласс</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Медиакласс</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Медиакласс</h3>
             <p class="product-description">Пространство, оснащённое мультимедийным оборудованием для записи и монтажа аудио- и видеоконтента.</p>
         </div>
-
-        <!-- Карточка 5: Принтеры, ноутбуки, проекторы -->
         <div class="product-card">
             <img th:src="@{/images/icon/proektory_printery_pozitiv_rus_1x_1x.jpg}" alt="Принтеры, ноутбуки, проекторы" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/printers-laptops-projectors'">Принтеры, ноутбуки, проекторы</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Принтеры, ноутбуки, проекторы</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Принтеры, ноутбуки, проекторы</h3>
             <p class="product-description">Для мобильных и стационарных классов, российского и иностранного производства.</p>
         </div>
-
-        <!-- Карточка 6: Интерактивное оборудование -->
         <div class="product-card">
             <img th:src="@{/images/icon/interaktivnyy_stol_pozitiv_rus_1x_1x.jpg}" alt="Интерактивное оборудование" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/interactive-equipment'">Интерактивное оборудование</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Интерактивное оборудование</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Интерактивное оборудование</h3>
             <p class="product-description">Интерактивные доски, интерактивные панели, сенсорные столы, интерактивный пол.</p>
         </div>
-
-        <!-- Карточка 7: Учебная мебель -->
         <div class="product-card">
             <img th:src="@{/images/icon/snimok_ekrana_2024_10_07_152901_1x.jpg}" alt="Учебная мебель" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/furniture'">Учебная мебель</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Учебная мебель</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Учебная мебель</h3>
             <p class="product-description">Парты, доски, стулья и скамьи, системы хранения, гардероб, мебель для столовых.</p>
         </div>
-
-        <!-- Карточка 8: Робототехника -->
         <div class="product-card">
             <img th:src="@{/images/icon/robototekhnika_pozitiv_rus_1x_2x.jpg}" alt="Робототехника" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/robotics'">Робототехника</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Робототехника</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Робототехника</h3>
             <p class="product-description">Для школ и детских садов: Lego Education, Robbo, Makeblock, КУБО, электронные конструкторы.</p>
         </div>
     </div>
 </div>
 
-<!-- Новая секция с рельсовыми системами -->
 <div class="rails-section" th:fragment="rails-section">
     <div class="rails-container">
         <div class="rails-text">Рельсовые системы (раздвижные доски)</div>
@@ -796,170 +775,150 @@
     </div>
 </div>
 
-<!-- Новая секция с печатающей и офисной техникой -->
 <div class="printing-section">
     <div class="solutions-text printing">Печатающая и офисная техника</div>
     <div class="product-grid">
-        <!-- Карточка 1: Принтеры и МФУ -->
         <div class="product-card">
             <img th:src="@{/images/PrintingAndOffice/917_583_1x.jpg}" alt="Принтеры и МФУ" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/printers-mfu'">Принтеры и МФУ</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Принтеры и МФУ</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Принтеры и МФУ</h3>
             <p class="product-description">Лазерная и струйная печатающая техника для дома и бизнеса. Canon, Brother, Epson, Xerox, Pantum.</p>
         </div>
-
-        <!-- Карточка 2: Офисная техника -->
         <div class="product-card">
             <img th:src="@{/images/PrintingAndOffice/skanery_pozitiv_rus_1x.jpg}" alt="Офисная техника" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/office-equipment'">Офисная техника</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Офисная техника</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Офисная техника</h3>
             <p class="product-description">Постпечатное офисное оборудование для нужд организаций. Брошюровщики, ламинаторы, сканеры, шредеры.</p>
         </div>
-
-        <!-- Карточка 3: 3D-принтеры -->
         <div class="product-card">
             <img th:src="@{/images/PrintingAndOffice/3d_pozitiv_rus_1x.jpg}" alt="3D-принтеры" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/3d-printers'">3D-принтеры</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">3D-принтеры</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">3D-принтеры</h3>
             <p class="product-description">3Д-принтеры российского производства для учреждений. ZENIT, PICASO, IMPRINTA, пластик для 3D-принтера.</p>
         </div>
-
-        <!-- Карточка 4: Плоттеры -->
         <div class="product-card">
             <img th:src="@{/images/PrintingAndOffice/plottery_pozitiv_rus_1x.jpg}" alt="Плоттеры" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/plotters'">Плоттеры</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Плоттеры</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Плоттеры</h3>
             <p class="product-description">Широкоформатные принтеры Canon для типографий, рекламных агентств и предприятий. iPF PRO-2100, iPF PRO-6100, TX-3100, TX-2100.</p>
         </div>
     </div>
 </div>
 
-<!-- Новая секция с компьютерной техникой -->
 <div class="computer-section">
     <div class="solutions-text computer">Компьютерная техника</div>
     <div class="product-grid">
-        <!-- Карточка 1: Компьютеры в сборе -->
         <div class="product-card">
             <img th:src="@{/images/Computer/kompyutery_pozitiv_rus.jpg_1x.png}" alt="Компьютеры в сборе" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/computers-assembled'">Компьютеры в сборе</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Компьютеры в сборе</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Компьютеры в сборе</h3>
             <p class="product-description">Российского и зарубежного производства. IRU (Россия), Lenovo, ASUS, Мини-ПК.</p>
         </div>
-
-        <!-- Карточка 2: Ноутбуки -->
         <div class="product-card">
             <img th:src="@{/images/Computer/noutbuki_pozitiv_rus_1x.jpg}" alt="Ноутбуки" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/laptops'">Ноутбуки</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Ноутбуки</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Ноутбуки</h3>
             <p class="product-description">Для дома, офисов и учреждений. Acer, ASUS, Lenovo.</p>
         </div>
-
-        <!-- Карточка 3: Комплектующие -->
         <div class="product-card">
             <img th:src="@{/images/Computer/materinskaya_plata_pozitiv_rus_1x.jpg}" alt="Комплектующие" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/components'">Комплектующие</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Комплектующие</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Комплектующие</h3>
             <p class="product-description">Процессоры, материнские платы, оперативная память, HDD и SSD, видеокарты и др.</p>
         </div>
-
-        <!-- Карточка 4: Компьютерная периферия -->
         <div class="product-card">
             <img th:src="@{/images/Computer/klaviatura_pozitiv_rus_1x.jpg}" alt="Компьютерная периферия" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/peripherals'">Компьютерная периферия</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Компьютерная периферия</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Компьютерная периферия</h3>
             <p class="product-description">Защита питания, акустика, мониторы, гарнитуры, кабели, устройства ввода, носители информации.</p>
         </div>
     </div>
 </div>
 
-<!-- Новая секция с расходными материалами для техники и печати -->
 <div class="materials-section">
     <div class="solutions-text materials">Расходные материалы для техники и печати</div>
     <div class="product-grid">
-        <!-- Карточка 1: Запасные части для техники -->
         <div class="product-card">
             <img th:src="@{/images/materials/komplektuyushchie_pozitiv_rus_1x.jpg}" alt="Запасные части для техники" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/spare-parts'">Запасные части для техники</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Запасные части для техники</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Запасные части для техники</h3>
             <p class="product-description">Для ремонта и обслуживания принтеров и МФУ. Ролики, ракели, чипы, шестерни, шлейфы.</p>
         </div>
-
-        <!-- Карточка 2: Картриджи -->
         <div class="product-card">
             <img th:src="@{/images/materials/kartridzhi_pozitiv_rus_1x.jpg}" alt="Картриджи" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/cartridges'">Картриджи</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Картриджи</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Картриджи</h3>
             <p class="product-description">Лазерные, струйные, оригинальные, совместимые, матричные.</p>
         </div>
-
-        <!-- Карточка 3: Чернила и тонер -->
         <div class="product-card">
             <img th:src="@{/images/materials/chernila_pozitiv_rus_1x.jpg}" alt="Чернила и тонер" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/inks-toner'">Чернила и тонер</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Чернила и тонер</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Чернила и тонер</h3>
             <p class="product-description">Для заправки картриджей. Чернила от 65 мл до 1 л, тонер от 50 гр до 1 кг, оригинальные и совместимые.</p>
         </div>
-
-        <!-- Карточка 4: Расходные материалы -->
         <div class="product-card">
             <img th:src="@{/images/materials/raskhodka_pozitiv_rus_1x.jpg}" alt="Расходные материалы" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/consumables'">Расходные материалы</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Расходные материалы</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Расходные материалы</h3>
             <p class="product-description">Бумага офисная, обложки и пружины для переплета, пленка для ламинирования, термобумага, термопленка.</p>
         </div>
     </div>
 </div>
 
-<!-- Новая секция с сетевым оборудованием и ПО -->
 <div class="network-section">
     <div class="solutions-text network">Сетевое оборудование и ПО</div>
     <div class="product-grid">
-        <!-- Карточка 1: Коммутаторы и маршрутизаторы -->
         <div class="product-card">
             <img th:src="@{/images/Network/router_pozitiv_rus_1x.jpg}" alt="Коммутаторы и маршрутизаторы" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/switches-routers'">Коммутаторы и маршрутизаторы</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Коммутаторы и маршрутизаторы</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Коммутаторы и маршрутизаторы</h3>
             <p class="product-description">TP-LINK, D-LINK, ASUS, MIKROTIK, Netcraze (Keenetic).</p>
         </div>
-
-        <!-- Карточка 2: Сетевые кабели и коммутации -->
         <div class="product-card">
             <img th:src="@{/images/Network/patch_kord_pozitiv_rus_1x.jpg}" alt="Сетевые кабели и коммутации" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/network-cables'">Сетевые кабели и коммутации</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Сетевые кабели и коммутации</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Сетевые кабели и коммутации</h3>
             <p class="product-description">Патч-корды, инструмент, кабель, розетки, кабель-каналы.</p>
         </div>
-
-        <!-- Карточка 3: Сетевые карты и Wi-Fi -->
         <div class="product-card">
             <img th:src="@{/images/Network/router_wi_fi_pozitiv_rus_1x.jpg}" alt="Сетевые карты и Wi-Fi" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/network-cards-wifi'">Сетевые карты и Wi-Fi</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Сетевые карты и Wi-Fi</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Сетевые карты и Wi-Fi</h3>
             <p class="product-description">Сетевые карты, Wi-Fi адаптеры, антенны, точки доступа.</p>
         </div>
-
-        <!-- Карточка 4: Программное обеспечение -->
         <div class="product-card">
             <img th:src="@{/images/Network/antivirus_pozitiv_rus_1x.jpg}" alt="Программное обеспечение" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/product/software'">Программное обеспечение</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Программное обеспечение</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Программное обеспечение</h3>
             <p class="product-description">Операционные системы, антивирусы, офисные программы.</p>
         </div>
     </div>
 </div>
 
-<!-- Новая секция с услугами по обслуживанию техники -->
 <div class="services-section">
     <div class="solutions-text services">Услуги по обслуживанию техники</div>
     <div class="product-grid">
-        <!-- Карточка 1: Ремонт офисной техники -->
         <div class="product-card">
             <img th:src="@{/images/yslugi/remont_printera.jpg}" alt="Ремонт офисной техники" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/service/office-repair'">Ремонт офисной техники</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Ремонт офисной техники</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Ремонт офисной техники</h3>
             <p class="product-description"></p>
         </div>
-
-        <!-- Карточка 2: Ремонт компьютерной техники -->
         <div class="product-card">
             <img th:src="@{/images/yslugi/remont_komputera_2x.jpg}" alt="Ремонт компьютерной техники" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/service/computer-repair'">Ремонт компьютерной техники</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Ремонт компьютерной техники</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Ремонт компьютерной техники</h3>
             <p class="product-description"></p>
         </div>
-
-        <!-- Карточка 3: Заправка картриджей -->
         <div class="product-card">
             <img th:src="@{/images/yslugi/zapravka_kartridzhey_2x.jpg}" alt="Заправка картриджей" class="product-image">
-            <h3 class="product-title" onclick="window.location.href='/service/cartridge-refill'">Заправка картриджей</h3>
+            <h3 class="product-title" sec:authorize="isAuthenticated()" onclick="window.location.href='/store'">Заправка картриджей</h3>
+            <h3 class="product-title" sec:authorize="isAnonymous()" onclick="window.location.href='/auth/registration'">Заправка картриджей</h3>
             <p class="product-description"></p>
         </div>
     </div>
 </div>
 
-<!-- Секция с преимуществами -->
 <div class="advantages-section">
     <h2 class="advantages-title">Почему заказывают у нас?</h2>
     <ul class="advantages-list">
@@ -990,7 +949,6 @@
     </ul>
 </div>
 
-<!-- Секция с партнерами -->
 <div class="partners-section">
     <h2 class="partners-title">Наши партнеры</h2>
     <div class="partners-slider">
@@ -1013,7 +971,6 @@
     </div>
 </div>
 
-<!-- Секция с отзывами -->
 <div class="reviews-section">
     <div class="d-flex align-items-center justify-content-center">
         <div>
@@ -1023,7 +980,6 @@
     </div>
 </div>
 
-<!-- Улучшенная секция с контактами -->
 <div class="contacts-section">
     <h2 class="contacts-title">Наши контакты</h2>
     <p class="contacts-text">Мы всегда на связи!</p>
@@ -1032,13 +988,13 @@
     <p class="contacts-text">Email: <a href="mailto:site@pozitivrus.ru" style="color: #ffd700; text-decoration: none;">site@pozitivrus.ru</a></p>
     <div class="footer-nav">
         <a href="#">Главная</a>
-        <a href="#">Ассортимент</a>
+        <a href="/store">Ассортимент</a>
         <a href="#">Преимущества</a>
         <a href="#">Партнеры</a>
         <a href="#">Магазины</a>
-        <a href="#">Наши офисы</a>
+        <a href="/page/offices">Наши офисы</a>
         <a href="#">Обратная связь</a>
-        <a href="#">Написать нам</a>
+        <a href="https://api.whatsapp.com/send?phone=78002225587">Написать нам</a>
     </div>
     <p class="footer-copyright">© 2006-2025 ИП Малахов В.А.</p>
 </div>
@@ -1046,7 +1002,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script>
-    //прокрутка ленты партнеров
     const slider = document.querySelector('.partners-slider');
     let scrollPosition = 0;
     const scrollSpeed = 3; // Скорость прокрутки

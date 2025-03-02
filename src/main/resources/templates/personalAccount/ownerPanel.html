@@ -1,28 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админка — Позитив</title>
-    <!-- Bootstrap CSS -->
+    <title>Панель основателя | Позитив</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Animate.css для анимаций -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <!-- Кастомные стили -->
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Элегантный шрифт */
-            background: #000; /* Простой черный фон */
+            font-family: 'Poppins', sans-serif;
+            background: #3a1e67;
             color: #fff;
-            height: 100vh;
+            min-height: 100vh;
             overflow-x: hidden;
             margin: 0;
             padding: 0;
         }
         .navbar-custom {
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a); /* Темный градиент для навигации */
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
             border-bottom: 2px solid rgba(255, 215, 0, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .nav-btn {
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        .nav-btn:hover {
+            color: #fff;
+            background: rgba(75, 0, 130, 0.3);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+        .profile-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            text-decoration: none;
+            margin: 0;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .profile-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
+            filter: brightness(1.2);
+        }
+        .dropdown-menu {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .dropdown-item {
+            color: #ffd700;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
         }
         .header-contact {
             display: flex;
@@ -32,7 +99,7 @@
         .header-contact span {
             display: flex;
             align-items: center;
-            gap: 10px; /* Расстояние между аватаром и текстом */
+            gap: 10px;
         }
         .header-contact a {
             color: #ffd700;
@@ -40,7 +107,7 @@
             position: relative;
         }
         .header-contact a:hover {
-            color: #98FF98; /* Салатовый цвет при наведении */
+            color: #98FF98;
             text-shadow: 0 0 15px rgba(152, 255, 152, 0.8);
             text-decoration: none;
         }
@@ -51,7 +118,7 @@
             height: 2px;
             bottom: -5px;
             left: 0;
-            background-color: #98FF98; /* Салатовый цвет подчеркивания */
+            background-color: #98FF98;
             transition: width 0.3s ease;
         }
         .header-contact a:hover::after {
@@ -64,142 +131,74 @@
             transform: rotate(5deg) scale(1.1);
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
         }
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ffd700, #ffec3d); /* Золотой градиент для аватара */
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: bold;
-            text-decoration: none;
-            margin: 0;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            cursor: pointer;
+
+        .admin-section {
+            padding: 40px 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            animation: slideInUp 1.5s ease-out;
         }
-        .avatar:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
-            filter: brightness(1.2);
-        }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
-            padding: 10px;
-            margin-top: 10px;
-            z-index: 1000;
-        }
-        .dropdown-menu a {
-            display: block;
+        .admin-title {
             color: #ffd700;
-            font-size: 16px;
-            padding: 8px 16px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-        }
-        .dropdown-menu a:hover {
-            color: #fff;
-            background: rgba(255, 215, 0, 0.2);
-            transform: scale(1.05);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+            text-align: center;
         }
         .admin-container {
-            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95)); /* Полупрозрачный фиолетовый градиент */
-            padding: 50px;
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8); /* Золотая и фиолетовая тень с 3D-эффектом */
-            max-width: 600px;
-            margin: 50px auto;
-            position: relative;
-            z-index: 1;
-            animation: slideInUp 1.5s ease-out;
-            backdrop-filter: blur(8px); /* Усиленная размытость фона */
-            border: 2px solid rgba(255, 215, 0, 0.2); /* Золотая обводка */
-        }
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h1 {
-            color: #ffd700; /* Золотой цвет заголовка */
-            text-align: center;
-            font-size: 2.5rem;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
-            animation: pulse 2s infinite;
-            margin-bottom: 30px;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.2);
         }
         .form-group {
             margin-bottom: 25px;
         }
         .form-label {
-            color: #ffd700; /* Золотой цвет для меток */
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4); /* Яркое свечение */
-            transition: text-shadow 0.3s ease;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
             display: block;
             margin-bottom: 10px;
-        }
-        .form-label:hover {
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.6);
         }
         .input-container {
             position: relative;
             margin-bottom: 15px;
         }
         input[type="text"].custom-input, select {
-            background-color: rgba(26, 26, 26, 0.85); /* Полупрозрачный темный фон */
-            border: 3px solid #ffd700; /* Толстая золотая обводка */
-            color: #000 !important; /* Черный цвет текста для ввода */
-            border-radius: 12px;
-            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ffd700;
+            color: #000;
+            border-radius: 10px;
+            padding: 10px 15px;
             font-size: 16px;
             width: 100%;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         input[type="text"].custom-input:focus, select:focus {
-            border-color: #4b0082; /* Фиолетовый при фокусе */
-            box-shadow: 0 0 25px #4b0082, 0 0 15px #ffd700, inset 0 0 15px rgba(75, 0, 130, 0.5); /* Свечение фиолетового и золотого */
-            background-color: rgba(26, 26, 26, 0.95);
-            transform: scale(1.02); /* Легкое увеличение при фокусе */
+            border-color: #98FF98;
+            box-shadow: 0 0 10px rgba(152, 255, 152, 0.5);
             outline: none;
-        }
-        option {
-            background-color: rgba(26, 26, 26, 0.85); /* Полупрозрачный темный фон для опций */
-            color: #000 !important; /* Черный цвет текста для опций */
         }
         .suggestions {
             position: absolute;
             top: 100%;
             left: 0;
             right: 0;
-            background: rgba(26, 26, 26, 0.95);
+            background: rgba(255, 255, 255, 0.95);
             border: 2px solid #ffd700;
-            border-radius: 12px;
+            border-radius: 10px;
             max-height: 200px;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
             display: none;
         }
         .suggestion-item {
-            padding: 10px 16px;
+            padding: 10px 15px;
             color: #000;
             cursor: pointer;
             transition: background 0.3s ease, color 0.3s ease;
@@ -209,106 +208,130 @@
             color: #fff;
         }
         input[type="submit"] {
-            background: linear-gradient(45deg, #ffd700, #ffec3d, #f7d358); /* Градент золотого с 3D-эффектом */
+            background: linear-gradient(45deg, #ffd700, #ffec3d);
             color: #000;
             border: none;
-            padding: 14px 28px;
-            border-radius: 30px;
+            padding: 12px 24px;
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
             width: 100%;
-            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7);
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background: linear-gradient(45deg, #4b0082, #6a0dad, #8a2be2); /* Градент фиолетового с 3D-эффектом */
-            color: #fff;
-            transform: scale(1.1); /* Увеличение при наведении */
-            box-shadow: 0 15px 35px rgba(75, 0, 130, 0.9), 0 0 30px rgba(75, 0, 130, 0.7);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
         }
-        input[type="submit"]:active {
-            transform: scale(0.98);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .admin-title {
+                font-size: 2rem;
+            }
+            .admin-container {
+                padding: 20px;
+            }
+            input[type="text"].custom-input, select {
+                font-size: 14px;
+            }
+            input[type="submit"] {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-<!-- Шапка с логотипом, контактами и аватаром (визуальная, без логики) -->
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
-        <!-- Логотип -->
-        <a class="navbar-brand" href="#" onclick="window.location.href='/'">
-            <img src="/images/icon/oblozhka_pozitiv.png" alt="Позитив логотип" class="img-fluid" style="max-height: 60px; animation: bounceIn 1.5s ease-in;">
+        <a class="navbar-brand" href="#" th:href="@{/}">
+            <img th:src="@{/images/icon/oblozhka_pozitiv.png}" alt="Позитив логотип" class="img-fluid" style="max-height: 60px; animation: bounceIn 1.5s ease-in;">
         </a>
-        <!-- Контакты (с аватаром слева от времени работы, без других иконок) -->
         <div class="ms-auto header-contact">
             <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
             <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
             <span class="ms-3">
-                    <div class="dropdown">
-                        <a class="avatar" id="avatarButton" onclick="toggleDropdown()">
-                            A <!-- Случайная буква по умолчанию для админа -->
-                        </a>
-                        <div id="profileDropdown" class="dropdown-menu">
-                            <a href="/auth/registration">Зарегистрироваться</a>
-                            <a href="/auth/login">Войти</a>
-                            <a href="/">Вернуться в меню</a>
-                        </div>
-                    </div>
-                    Время работы: Пн-Пт: 9:00–18:00
-                </span>
+                <div class="dropdown">
+                    <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
+                        <li sec:authorize="isAnonymous()">
+                            <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a class="dropdown-item" th:href="@{/auth/login}">Войти в аккаунт</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated() and hasAnyRole('USER','OWNER','ADMIN')">
+                            <a class="dropdown-item" th:href="@{/acc}">Личный кабинет</a>
+                        </li>
+                        <li sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+                            <a class="dropdown-item" th:href="@{/admin}">Панель администратора</a>
+                        </li>
+                        <li sec:authorize="hasRole('OWNER')">
+                            <a class="dropdown-item" th:href="@{/owner}">Панель основателя</a>
+                        </li>
+                    </ul>
+                </div>
+                Время работы: Пн-Пт: 9:00–18:00
+            </span>
         </div>
     </div>
 </nav>
 
-<!-- Контейнер админки -->
-<div class="admin-container">
-    <h1>Добро пожаловать!</h1>
-    <form th:method="POST" th:action="@{/owner/add}" th:object="${user}" class="form-group">
-        <label for="userAdd" class="form-label">Выберите или введите человека:</label>
-        <div class="input-container">
-            <input type="text" class="custom-input" id="userAddInput" placeholder="Введите логин" />
-            <div id="userAddSuggestions" class="suggestions"></div>
-            <select th:field="*{id}" id="userAdd" style="display: none;">
-                <option th:each="p : ${peopleNotAdmin}" th:value="${p.id}" th:text="${p.login}"></option>
-            </select>
-        </div>
-        <input type="submit" value="Назначить админом"/>
-    </form>
-    <br/>
-    <form th:method="POST" th:action="@{/owner/delete}" th:object="${user}" class="form-group">
-        <label for="userDelete" class="form-label">Выберите или введите человека:</label>
-        <div class="input-container">
-            <input type="text" class="custom-input" id="userDeleteInput" placeholder="Введите логин" />
-            <div id="userDeleteSuggestions" class="suggestions"></div>
-            <select th:field="*{id}" id="userDelete" style="display: none;">
-                <option th:each="p : ${peopleNotUser}" th:value="${p.id}" th:text="${p.login}"></option>
-            </select>
-        </div>
-        <input type="submit" value="Убрать с поста админа"/>
-    </form>
+<div class="nav-menu">
+    <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
+    <a href="#" th:href="@{/page/offices}" class="nav-btn">Наши офисы</a>
+    <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
+    <a href="#" th:href="@{/acc}" class="nav-btn">Личный кабинет</a>
+    <a href="#" th:href="@{/admin}" class="nav-btn">Панель администратора</a>
+    <a href="#" th:href="@{/owner}" class="nav-btn">Панель основателя</a>
 </div>
 
-<!-- Bootstrap JS, Popper.js и кастомный JavaScript для дропдауна и автодополнения -->
+<div class="admin-section">
+    <h1 class="admin-title">Панель основателя</h1>
+    <div class="admin-container">
+        <form th:method="POST" th:action="@{/owner/add}" th:object="${user}" class="form-group">
+            <label for="userAdd" class="form-label">Назначить администратора:</label>
+            <div class="input-container">
+                <input type="text" class="custom-input" id="userAddInput" placeholder="Введите логин" />
+                <div id="userAddSuggestions" class="suggestions"></div>
+                <select th:field="*{id}" id="userAdd" style="display: none;">
+                    <option th:each="p : ${peopleNotAdmin}" th:value="${p.id}" th:text="${p.login}"></option>
+                </select>
+            </div>
+            <input type="submit" value="Назначить админом"/>
+        </form>
+        <form th:method="POST" th:action="@{/owner/delete}" th:object="${user}" class="form-group">
+            <label for="userDelete" class="form-label">Убрать администратора:</label>
+            <div class="input-container">
+                <input type="text" class="custom-input" id="userDeleteInput" placeholder="Введите логин" />
+                <div id="userDeleteSuggestions" class="suggestions"></div>
+                <select th:field="*{id}" id="userDelete" style="display: none;">
+                    <option th:each="p : ${peopleNotUser}" th:value="${p.id}" th:text="${p.login}"></option>
+                </select>
+            </div>
+            <input type="submit" value="Убрать с поста админа"/>
+        </form>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script>
-    // Функция для переключения дропдауна аватара
-    function toggleDropdown() {
-        const dropdown = document.getElementById('profileDropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Закрытие дропдауна при клике вне элемента
-    document.addEventListener('click', function(event) {
-        const avatar = document.getElementById('avatarButton');
-        const dropdown = document.getElementById('profileDropdown');
-        if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.style.display = 'none';
-        }
-    });
-
-    // Автодополнение для ввода пользователей (на основе существующих данных)
     const peopleNotAdmin = [...document.querySelectorAll('#userAdd option')].map(option => ({
         id: option.value,
         login: option.textContent
@@ -338,7 +361,7 @@
                         item.dataset.id = person.id;
                         item.addEventListener('click', function() {
                             input.value = person.login;
-                            select.value = person.id; // Обновляем скрытый select
+                            select.value = person.id;
                             suggestions.style.display = 'none';
                         });
                         suggestions.appendChild(item);
@@ -348,18 +371,13 @@
             }
         });
 
-        // Закрытие предложений при клике вне элемента
         document.addEventListener('click', function(event) {
             if (!input.contains(event.target) && !suggestions.contains(event.target)) {
                 suggestions.style.display = 'none';
             }
         });
-
-        // Скрываем select, но сохраняем его для отправки формы
-        select.style.display = 'none';
     }
 
-    // Инициализация автодополнения для обеих форм
     setupAutocomplete('userAddInput', 'userAdd', 'userAddSuggestions', peopleNotAdmin);
     setupAutocomplete('userDeleteInput', 'userDelete', 'userDeleteSuggestions', peopleNotUser);
 </script>

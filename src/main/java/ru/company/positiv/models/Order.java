@@ -1,6 +1,7 @@
 package ru.company.positiv.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,11 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    // Статус заявки «new», «processing», «completed»
+
     @Column(name = "status")
     private String status;
+
+    @Min(value = 0, message = "Количество не может быть отрицательным")
+    @Column(name = "quantity")
+    private Long quantity;
 }

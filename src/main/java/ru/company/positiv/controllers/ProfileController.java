@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.company.positiv.dto.PasswordChangeDTO;
 import ru.company.positiv.dto.UserDTO;
 import ru.company.positiv.models.User;
+import ru.company.positiv.repositories.OrderRepositories;
 import ru.company.positiv.repositories.UserRepositories;
 import ru.company.positiv.services.ProfileServices;
 import ru.company.positiv.util.PasswordMismatchException;
@@ -29,6 +30,7 @@ public class ProfileController {
     private final ProfileServices profileServices;
     private final UserRepositories userRepositories;
     private final ModelMapper modelMapper;
+    private final OrderRepositories orderRepositories;
 
     /**
      * Отображает страницу личного кабинета пользователя.
@@ -39,7 +41,20 @@ public class ProfileController {
      */
     @GetMapping
     public String myAccount(Model model, Principal principal) {
-        populateModel(model, principal);
+        if (principal != null) {
+            User currentUser = userRepositories.findByLogin(principal.getName())
+                    .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+
+
+            model.addAttribute("userOrders", orderRepositories.findByUserId(currentUser.getId()));
+            model.addAttribute("userDTO", modelMapper.map(currentUser, UserDTO.class));
+            model.addAttribute("passwordChangeDTO", new PasswordChangeDTO());
+            model.addAttribute("login", currentUser.getLogin());
+            model.addAttribute("email", currentUser.getEmail());
+            model.addAttribute("city", currentUser.getCity());
+            model.addAttribute("name", currentUser.getName());
+            model.addAttribute("phone", currentUser.getPhone());
+        }
         return "/personalAccount/myAccount";
     }
 

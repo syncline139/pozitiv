@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет | Позитив</title>
+    <title>Админ-панель | Позитив</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background: #3a1e67;
+            color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
             margin: 0;
@@ -130,14 +135,13 @@
             transform: rotate(5deg) scale(1.1);
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
         }
-
-        .profile-section {
+        .admin-section {
             padding: 40px 20px;
             margin: 20px auto;
             max-width: 1600px;
             animation: slideInUp 1.5s ease-out;
         }
-        .profile-title {
+        .admin-title {
             color: #ffd700;
             font-size: 2.5rem;
             font-weight: bold;
@@ -146,71 +150,26 @@
             animation: pulse 2s infinite;
             text-align: center;
         }
-        .profile-info {
+        .add-product-form {
             background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
             margin-bottom: 40px;
         }
-        .profile-info p {
-            margin: 10px 0;
-            font-size: 1.2rem;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-        }
-        .profile-info span {
-            color: #ffd700;
-            font-weight: bold;
-        }
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        .toggle-btn, .logout-btn {
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #ffd700, #ffec3d);
-            color: #000;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            width: 220px;
-            text-align: center;
-        }
-        .logout-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ff8787);
-        }
-        .toggle-btn:hover, .logout-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
-        }
-        .logout-btn:hover {
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.9);
-        }
-        .profile-form, .password-form {
-            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
-            margin-bottom: 40px;
-        }
-        .profile-form .form-group, .password-form .form-group {
+        .add-product-form .form-group {
             margin-bottom: 20px;
         }
-        .profile-form label, .password-form label {
+        .add-product-form label {
             color: #ffd700;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
             display: block;
             margin-bottom: 5px;
         }
-        .profile-form input, .password-form input {
+        .add-product-form input[type="text"],
+        .add-product-form input[type="number"],
+        .add-product-form textarea {
             width: 100%;
             padding: 10px;
             border: 2px solid #ffd700;
@@ -220,18 +179,23 @@
             font-size: 1rem;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .profile-form input:focus, .password-form input:focus {
+        .add-product-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .add-product-form input:focus,
+        .add-product-form textarea:focus {
             outline: none;
             border-color: #98FF98;
             box-shadow: 0 0 10px rgba(152, 255, 152, 0.5);
         }
-        .profile-form .error, .password-form .error {
+        .add-product-form .error {
             color: #ff6b6b;
             font-size: 0.9rem;
             margin-top: 5px;
             text-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
         }
-        .profile-form button, .password-form button {
+        .add-product-form button {
             padding: 10px 20px;
             background: linear-gradient(45deg, #ffd700, #ffec3d);
             color: #000;
@@ -243,7 +207,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
-        .profile-form button:hover, .password-form button:hover {
+        .add-product-form button:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
         }
@@ -275,7 +239,36 @@
         .orders-table tr:hover td {
             background: rgba(255, 215, 0, 0.1);
         }
-
+        .orders-table select {
+            padding: 5px;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: #fff;
+            color: #000;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .orders-table select:focus {
+            outline: none;
+            border-color: #98FF98;
+            box-shadow: 0 0 10px rgba(152, 255, 152, 0.5);
+        }
+        .orders-table button {
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #ffd700, #ffec3d);
+            color: #000;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .orders-table button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -290,32 +283,31 @@
             to { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 768px) {
-            .profile-title {
+            .admin-title {
                 font-size: 2rem;
             }
-            .profile-info, .profile-form, .password-form {
+            .add-product-form {
                 padding: 15px;
             }
-            .profile-info p {
-                font-size: 1rem;
-            }
-            .button-group {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .toggle-btn, .logout-btn {
-                width: 100%;
-            }
-            .profile-form input, .password-form input {
+            .add-product-form input[type="text"],
+            .add-product-form input[type="number"],
+            .add-product-form textarea {
                 font-size: 0.9rem;
             }
-            .profile-form button, .password-form button {
+            .add-product-form button {
                 padding: 8px 16px;
                 font-size: 0.9rem;
             }
             .orders-table th, .orders-table td {
                 font-size: 0.9rem;
                 padding: 10px;
+            }
+            .orders-table select {
+                font-size: 0.9rem;
+            }
+            .orders-table button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -362,83 +354,71 @@
     <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
     <a href="#" th:href="@{/page/offices}" class="nav-btn">Наши офисы</a>
     <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
-    <a href="#" th:href="@{/acc}" class="nav-btn">Личный кабинет</a>
+    <a href="#" th:href="@{/admin}" class="nav-btn">Админ-панель</a>
 </div>
 
-<div class="profile-section">
-    <h2 class="profile-title">Личный кабинет</h2>
-    <div class="profile-info">
-        <p>Подробнее о вас:</p>
-        <p>Логин: <span th:text="${login}">Логин пользователя</span></p>
-        <p>Электронная почта: <span th:text="${email}">Электронная почта</span></p>
-        <p>Адрес проживания: <span th:text="${city}">Адрес пользователя</span></p>
-        <p>Ваше имя: <span th:text="${name}">Имя пользователя</span></p>
-        <p>Ваш номер телефона: <span th:text="${phone}">Номер пользователя</span></p>
-    </div>
+<div class="admin-section">
+    <h1 class="admin-title">Добавить товар</h1>
+    <form th:action="@{/admin/add}" th:object="${product}" method="post" class="add-product-form">
+        <div class="form-group">
+            <label for="name">Название товара:</label>
+            <input type="text" id="name" th:field="*{name}"/>
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
+        </div>
 
-    <div class="button-group">
-        <button class="toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#profileFormCollapse" aria-expanded="false" aria-controls="profileFormCollapse">
-            Изменить личные данные
-        </button>
-        <button class="toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#passwordFormCollapse" aria-expanded="false" aria-controls="passwordFormCollapse">
-            Поменять пароль
-        </button>
-        <a th:href="@{/logout}" class="logout-btn">Выйти из аккаунта</a>
-    </div>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea id="description" th:field="*{description}"></textarea>
+            <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></div>
+        </div>
 
-    <div class="collapse" id="profileFormCollapse">
-        <form th:method="POST" th:action="@{/acc/updateProfile}" th:object="${userDTO}" class="profile-form">
-            <div class="form-group">
-                <label for="city">Введите ваш адрес (на него будут приходить заказы):</label>
-                <input type="text" th:field="*{city}" id="city" required/>
-                <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="error"></div>
-            </div>
-            <div class="form-group">
-                <label for="name">Ваше имя:</label>
-                <input type="text" th:field="*{name}" id="name" required/>
-                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
-            </div>
-            <div class="form-group">
-                <label for="phone">Ваш номер телефона:</label>
-                <input type="text" th:field="*{phone}" id="phone" required/>
-                <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></div>
-            </div>
-            <button type="submit">Сохранить</button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label for="quantity">Количество:</label>
+            <input type="number" id="quantity" th:field="*{quantity}"/>
+            <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="error"></div>
+        </div>
 
-    <div class="collapse" id="passwordFormCollapse">
-        <form th:method="POST" th:action="@{/acc/updatePassword}" th:object="${passwordChangeDTO}" class="password-form">
-            <div class="form-group">
-                <label for="oldPassword">Введите ваш старый пароль:</label>
-                <input type="password" th:field="*{oldPassword}" id="oldPassword" required/>
-                <div th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" class="error"></div>
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Введите ваш новый пароль:</label>
-                <input type="password" th:field="*{newPassword}" id="newPassword" required/>
-                <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error"></div>
-            </div>
-            <button type="submit">Сохранить</button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label for="price">Цена (шт):</label>
+            <input type="number" step="0.01" id="price" th:field="*{price}"/>
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error"></div>
+        </div>
 
-    <h2 class="profile-title">Мои заказы</h2>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <h1 class="admin-title">Список заказов</h1>
     <table class="orders-table">
         <thead>
         <tr>
             <th>ID</th>
+            <th>Пользователь</th>
             <th>Товар</th>
-            <th>Дата</th>
+            <th>Дата заказа</th>
+            <th>Количество</th>
             <th>Статус</th>
+            <th>Изменить статус</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${userOrders}">
-            <td th:text="${order.id}">Order ID</td>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">1</td>
+            <td th:text="${order.user.login}">User Login</td>
             <td th:text="${order.product.name}">Product Name</td>
-            <td th:text="${order.orderDate}">Order Date</td>
-            <td th:text="${order.status}">Status</td>
+            <td th:text="${order.orderDate}">2025-01-01</td>
+            <td th:text="${order.quantity}">0</td>
+            <td th:text="${order.status}">new</td>
+            <td>
+                <form th:action="@{/admin/updateStatus}" method="post" class="d-flex align-items-center gap-2">
+                    <input type="hidden" name="orderId" th:value="${order.id}"/>
+                    <select name="status">
+                        <option value="new" th:selected="${order.status} == 'new'">Новый</option>
+                        <option value="processing" th:selected="${order.status} == 'processing'">Обработка</option>
+                        <option value="completed" th:selected="${order.status} == 'completed'">Завершён</option>
+                    </select>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

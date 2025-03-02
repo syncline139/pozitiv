@@ -41,14 +41,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/", "/images/**", "/css/**", "/js/**", "/page/**").permitAll() // Разрешаем доступ ко всем статическим ресурсам, страницам аутентификации и корневой странице
+                        .requestMatchers("/auth/**", "/", "/images/**", "/css/**", "/js/**", "/page/**").permitAll()
                         .requestMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
                         .requestMatchers("/owner").hasRole("OWNER")
                         .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
                 )
                 .formLogin(form -> form
-                        .loginPage("/") // Главная страница как страница логина
-                        .loginProcessingUrl("/process_login") // URL обработки логина
+                        .loginPage("/")
+                        .loginProcessingUrl("/process_login")
                         .successHandler((request, response, authentication) -> {
                             Object principal = authentication.getPrincipal(); // После успешного входа в бд обновляеться значение последнего входа
                             if (principal instanceof UserDetails userDetails) {
@@ -59,13 +59,13 @@ public class SecurityConfig {
                             }
                             response.sendRedirect("/");
                         })
-                        .failureUrl("/auth/login?error=true") // Если ошибка
+                        .failureUrl("/auth/login?error=true")
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // URL выхода
-                        .logoutSuccessUrl("/auth/login") // После выхода
-                        .invalidateHttpSession(true) // Очистка сессии
-                        .deleteCookies("JSESSIONID") // Удаление куки
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/auth/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
