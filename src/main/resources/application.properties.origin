@@ -1,7 +1,7 @@
 spring.application.name=positiv
 
 spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.url=jdbc:postgresql://localhost:5432/positiv_db
+spring.datasource.url=jdbc:postgresql://localhost:5432/pozitiv_db
 spring.datasource.username=
 spring.datasource.password=
 
