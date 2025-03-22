@@ -55,7 +55,7 @@ public class ProfileController {
             model.addAttribute("name", currentUser.getName());
             model.addAttribute("phone", currentUser.getPhone());
         }
-        return "/personalAccount/myAccount";
+        return "personalAccount/myAccount";
     }
 
     /**
