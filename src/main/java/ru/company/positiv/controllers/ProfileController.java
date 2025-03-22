@@ -75,7 +75,7 @@ public class ProfileController {
                                 Principal principal) {
         if (userBindingResult.hasErrors()) {
             populateModel(model, principal);
-            return "/personalAccount/myAccount";
+            return "personalAccount/myAccount";
         }
         profileServices.save(userDTO);
         return "redirect:/acc";
@@ -99,14 +99,14 @@ public class ProfileController {
                                  Principal principal) {
         if (passwordBindingResult.hasErrors()) {
             populateModel(model, principal);
-            return "/personalAccount/myAccount";
+            return "personalAccount/myAccount";
         }
         try {
             profileServices.savePassword(passwordChangeDTO);
         } catch (PasswordMismatchException ex) {
             passwordBindingResult.rejectValue("oldPassword", "error.oldPassword", ex.getMessage());
             populateModel(model, principal);
-            return "/personalAccount/myAccount";
+            return "personalAccount/myAccount";
         }
         return "redirect:/acc";
     }

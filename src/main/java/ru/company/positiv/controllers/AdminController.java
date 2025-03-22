@@ -28,7 +28,7 @@ public class AdminController {
         List<Order> orders = orderRepository.findAll();
         model.addAttribute("orders", orders);
 
-        return "/store/adminPage";
+        return "store/adminPage";
     }
 
     @PostMapping("/add")
@@ -39,7 +39,7 @@ public class AdminController {
             List<Order> orders = orderRepository.findAll();
             model.addAttribute("orders", orders);
 
-            return "/store/adminPage";
+            return "store/adminPage";
         }
 
         productRepository.save(product);
