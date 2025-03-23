@@ -100,6 +100,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
         }
         .header-contact a {
             color: #ffd700;
@@ -125,6 +127,7 @@
             width: 100%;
         }
         .navbar-brand img {
+            max-height: 60px;
             transition: transform 0.3s ease, filter 0.3s ease;
         }
         .navbar-brand:hover img {
@@ -151,6 +154,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .search-input {
             width: 300px;
@@ -284,11 +288,56 @@
             to { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 768px) {
+            .navbar-custom {
+                padding: 0.5rem;
+            }
+            .navbar-brand img {
+                max-height: 50px;
+            }
+            .header-contact {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+                font-size: 0.85rem;
+                padding-right: 10px;
+            }
+            .header-contact span {
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+            .header-contact .ms-3 {
+                margin-left: 0 !important;
+            }
+            .nav-menu {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 0;
+            }
+            .nav-btn {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+            .profile-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+            .dropdown-item {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
             .store-title {
                 font-size: 2rem;
             }
             .search-input {
-                width: 200px;
+                width: 100%;
+                max-width: 250px;
+                font-size: 0.9rem;
+            }
+            .store-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
             .store-table th, .store-table td {
                 font-size: 0.9rem;
@@ -302,8 +351,66 @@
                 padding: 6px 12px;
                 font-size: 0.9rem;
             }
+            .modal-dialog {
+                margin: 10px;
+            }
             .modal-body p {
                 font-size: 1rem;
+            }
+            .btn-confirm {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .navbar-brand img {
+                max-height: 40px;
+            }
+            .header-contact {
+                gap: 5px;
+                font-size: 0.75rem;
+            }
+            .header-contact span {
+                gap: 3px;
+            }
+            .nav-btn {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+            .profile-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            .dropdown-item {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+            .store-title {
+                font-size: 1.5rem;
+            }
+            .search-input {
+                max-width: 200px;
+                font-size: 0.8rem;
+            }
+            .store-table th, .store-table td {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+            .store-table input[type="number"] {
+                width: 40px;
+                font-size: 0.8rem;
+            }
+            .order-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+            .modal-body p {
+                font-size: 0.9rem;
+            }
+            .btn-confirm {
+                padding: 5px 10px;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -312,7 +419,7 @@
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">
-            <img th:src="@{/images/icon/oblozhka_pozitiv.png}" alt="Позитив логотип" class="img-fluid" style="max-height: 60px; animation: bounceIn 1.5s ease-in;">
+            <img th:src="@{/images/icon/oblozhka_pozitiv.png}" alt="Позитив логотип" class="img-fluid">
         </a>
         <div class="ms-auto header-contact">
             <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>

@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Регистрация — Позитив</title>
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Animate.css для анимаций -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <style>
-    /* Основные стили страницы */
     body {
       font-family: 'Poppins', sans-serif;
       background: #000;
@@ -19,11 +16,10 @@
       margin: 0;
       padding: 0;
     }
-    /* Стили для шапки с логотипом */
     .navbar-custom {
       background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-      border-bottom: 2px solid rgba(255,215,0,0.2);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
       padding: 10px 0;
     }
     .navbar-brand img {
@@ -33,38 +29,36 @@
     .navbar-brand:hover img {
       transform: scale(1.1);
     }
-    /* Стили для контейнера регистрации */
     .registration-container {
-      background: linear-gradient(135deg, rgba(75,0,130,0.95), rgba(0,0,0,0.95));
+      background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
       padding: 50px;
       border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(255,215,0,0.6), 0 0 30px rgba(75,0,130,0.8);
+      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
       max-width: 400px;
       margin: 50px auto;
       position: relative;
       z-index: 1;
       animation: slideInUp 1.5s ease-out;
       backdrop-filter: blur(8px);
-      border: 2px solid rgba(255,215,0,0.2);
+      border: 2px solid rgba(255, 215, 0, 0.2);
     }
     @keyframes slideInUp {
       from { opacity: 0; transform: translateY(50px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Стили для формы */
     label {
       color: #ffd700;
       font-weight: 700;
-      text-shadow: 0 0 10px rgba(255,215,0,0.8), 0 0 20px rgba(255,215,0,0.4);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
       transition: text-shadow 0.3s ease;
     }
     label:hover {
-      text-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 25px rgba(255,215,0,0.6);
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.6);
     }
     input[type="text"],
     input[type="email"],
     input[type="password"] {
-      background-color: rgba(26,26,26,0.85);
+      background-color: rgba(26, 26, 26, 0.85);
       border: 3px solid #ffd700;
       color: #fff;
       caret-color: #fff;
@@ -74,7 +68,7 @@
       transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
       width: 100%;
       margin-bottom: 10px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     }
     input::placeholder {
       color: #fff;
@@ -83,8 +77,8 @@
     }
     input:focus {
       border-color: #4b0082;
-      box-shadow: 0 0 25px #4b0082, 0 0 15px #ffd700, inset 0 0 15px rgba(75,0,130,0.5);
-      background-color: rgba(26,26,26,0.95);
+      box-shadow: 0 0 25px #4b0082, 0 0 15px #ffd700, inset 0 0 15px rgba(75, 0, 130, 0.5);
+      background-color: rgba(26, 26, 26, 0.95);
       transform: scale(1.02);
       outline: none;
     }
@@ -98,7 +92,7 @@
       font-size: 18px;
       width: 100%;
       transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 10px 25px rgba(255,215,0,0.8), 0 0 20px rgba(255,215,0,0.6);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);
       position: relative;
       overflow: hidden;
     }
@@ -106,7 +100,7 @@
       background: linear-gradient(45deg, #4b0082, #6a0dad, #8a2be2);
       color: #fff;
       transform: scale(1.1);
-      box-shadow: 0 15px 35px rgba(75,0,130,0.9), 0 0 30px rgba(75,0,130,0.7);
+      box-shadow: 0 15px 35px rgba(75, 0, 130, 0.9), 0 0 30px rgba(75, 0, 130, 0.7);
     }
     button[type="submit"]:active {
       transform: scale(0.98);
@@ -116,7 +110,7 @@
       font-size: 16px;
       margin-top: 5px;
       animation: shake 0.5s ease-in-out, pulseError 1.5s infinite;
-      text-shadow: 0 0 5px rgba(255,68,68,0.5);
+      text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
     }
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -128,7 +122,6 @@
       50% { opacity: 1; }
       100% { opacity: 0.8; }
     }
-    /* Стили для блока с ссылкой "Есть аккаунт? Войти" */
     .login-text {
       text-align: center;
       margin-top: 20px;
@@ -142,13 +135,75 @@
     }
     .login-link:hover {
       color: #fff;
-      text-shadow: 0 0 10px rgba(255,215,0,0.8);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
       text-decoration: underline;
+    }
+    /* Адаптация для экранов до 768px (планшеты и телефоны) */
+    @media (max-width: 768px) {
+      .navbar-custom {
+        padding: 8px 0;
+      }
+      .navbar-brand img {
+        max-height: 50px;
+      }
+      .registration-container {
+        padding: 30px;
+        margin: 30px auto;
+        max-width: 350px;
+      }
+      label {
+        font-size: 14px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+      button[type="submit"] {
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+      .error {
+        font-size: 14px;
+      }
+      .login-text {
+        font-size: 14px;
+      }
+    }
+    /* Адаптация для экранов до 480px (маленькие телефоны) */
+    @media (max-width: 480px) {
+      .navbar-brand img {
+        max-height: 40px;
+      }
+      .registration-container {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 300px;
+      }
+      label {
+        font-size: 12px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+      .error {
+        font-size: 12px;
+      }
+      .login-text {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 <body>
-<!-- Верхняя шапка с логотипом -->
 <header>
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
@@ -159,7 +214,6 @@
   </nav>
 </header>
 
-<!-- Контейнер регистрации -->
 <div class="registration-container">
   <form th:method="POST" th:action="@{/auth/registration}" th:object="${registrationDTO}">
     <label for="login">Введите логин:</label>
@@ -181,7 +235,6 @@
   </p>
 </div>
 
-<!-- Bootstrap JS, Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
