@@ -2,6 +2,8 @@
 
 Добро пожаловать в проект "Pozitiv"! Это веб-приложение на основе Spring Boot, предназначенное для управления заказами на технику и оборудование. Проект включает интернет-магазин, личный кабинет, админ-панель и панель основателя с аутентификацией через Spring Security.
 
+# Деплой -> http://37.252.19.242:8080/
+
 ## Функционал
 - **Интернет-магазин**: Просмотр и заказ товаров (требуется регистрация).
 - **Личный кабинет**: Управление профилем, смена пароля, просмотр заказов, выход из аккаунта.
@@ -37,56 +39,18 @@ cd ВАША ПАПКА
    ```sql
    CREATE DATABASE pozitiv_db;
    ```
-3. Выполните SQL-скрипт для создания таблиц:
-   ```sql
-  
-   CREATE TABLE users (
-       id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-       name VARCHAR(255) NOT NULL,
-       login VARCHAR(255) UNIQUE NOT NULL,
-       email VARCHAR(255) UNIQUE NOT NULL,
-       city VARCHAR(255),
-       last_connect TIMESTAMP,
-       password VARCHAR(255) NOT NULL,
-       role VARCHAR(50),
-       registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-       phone VARCHAR(20)
-   );
-
-   
-   CREATE TABLE products (
-       id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-       name VARCHAR(255) NOT NULL,
-       description TEXT,
-       quantity BIGINT NOT NULL,
-       price NUMERIC(18,5) NOT NULL
-   );
-
-  
-   CREATE TABLE orders (
-       id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-       user_id BIGINT NOT NULL,
-       product_id BIGINT NOT NULL,
-       order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-       status VARCHAR(50),
-       quantity NUMERIC NOT NULL,
-       CONSTRAINT fk_orders_users FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-       CONSTRAINT fk_orders_products FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-   );
-   ```
 4. Переименуйте файл `src/main/resources/application.properties.origin` в `application.properties` и укажите свои данные для подключения к PostgreSQL:
    ```properties
    spring.application.name=positiv
    spring.datasource.driver-class-name=org.postgresql.Driver
-   spring.datasource.url=jdbc:postgresql://localhost:5432/positiv_db
-   spring.datasource.username=
-   spring.datasource.password=
+   spring.datasource.url=jdbc:postgresql://localhost:5432/pozitiv_db
+   spring.datasource.username=YOUR_USERNAME
+   spring.datasource.password=YOUR_PASSWORD
 
    spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
    spring.jpa.show-sql=true
 
 
-   ```
 
 ### 3. Сборка и запуск приложения
 1. Убедитесь, что вы находитесь в директории проекта:
