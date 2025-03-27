@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рельсовые системы и раздвижные доски | Позитив</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         body {
@@ -67,6 +68,58 @@
         }
         .header-contact a:hover::after {
             width: 100%;
+        }
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            order: 1;
+        }
+        .profile-container .profile-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            color: #4b0082 !important; /* Фиолетовый человечек */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            text-decoration: none;
+            margin: 0;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .profile-container .profile-icon:hover {
+            transform: scale(1.1);
+        }
+        .profile-container .profile-icon i.bi-person-fill {
+            color: #4b0082 !important; /* Убеждаемся, что иконка фиолетовая */
+        }
+        .dropdown-menu {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
+            padding: 10px;
+            margin-top: 5px;
+            min-width: 200px;
+            right: 0;
+            left: auto;
+        }
+        .dropdown-item {
+            color: #ffd700;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
         }
         .nav-menu {
             display: flex;
@@ -214,7 +267,6 @@
             from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Адаптация для экранов до 768px (планшеты и телефоны) */
         @media (max-width: 768px) {
             .navbar-custom {
                 padding: 0.5rem;
@@ -287,8 +339,12 @@
             .footer-copyright {
                 font-size: 0.8rem;
             }
+            .profile-container .profile-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
         }
-        /* Адаптация для экранов до 480px (маленькие телефоны) */
         @media (max-width: 480px) {
             .navbar-brand img {
                 max-height: 40px;
@@ -338,6 +394,11 @@
             .footer-copyright {
                 font-size: 0.7rem;
             }
+            .profile-container .profile-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -349,6 +410,31 @@
     <div class="header-contact">
         <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
         <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
+        <span class="ms-3">
+            Время работы: Пн-Пт: 9:00–18:00
+            <div class="dropdown profile-container">
+                <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-fill"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
+                    <li sec:authorize="isAnonymous()">
+                        <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <a class="dropdown-item" th:href="@{/auth/login}">Войти в аккаунт</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated() and hasAnyRole('USER', 'OWNER', 'ADMIN')">
+                        <a class="dropdown-item" th:href="@{/acc}">Личный кабинет</a>
+                    </li>
+                    <li sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+                        <a class="dropdown-item" th:href="@{/admin}">Панель администратора</a>
+                    </li>
+                    <li sec:authorize="hasRole('OWNER')">
+                        <a class="dropdown-item" th:href="@{/owner}">Панель основателя</a>
+                    </li>
+                </ul>
+            </div>
+        </span>
     </div>
 </nav>
 

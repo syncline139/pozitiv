@@ -48,26 +48,31 @@
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
             transform: scale(1.05);
         }
-        .profile-icon {
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            order: 1;
+        }
+
+        .profile-container .profile-icon {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: #fff;
-            color: #000;
+            background: #fff; /* Белый фон */
+            color: #4b0082 !important; /* Фиолетовый человечек с приоритетом */
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
             text-decoration: none;
             margin: 0;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             cursor: pointer;
         }
-        .profile-icon:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
-            filter: brightness(1.2);
+
+        .profile-container .profile-icon i.bi-person-fill {
+            color: #4b0082 !important; /* Прямо указываем цвет для иконки */
         }
         .dropdown-menu {
             background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
@@ -75,8 +80,12 @@
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
             padding: 10px;
-            margin-top: 10px;
+            margin-top: 5px;
+            min-width: 200px;
+            right: 0;
+            left: auto;
         }
+
         .dropdown-item {
             color: #ffd700;
             font-size: 16px;
@@ -85,11 +94,21 @@
             transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
             cursor: pointer;
         }
+
         .dropdown-item:hover {
             color: #fff;
             background: rgba(255, 215, 0, 0.2);
             transform: scale(1.05);
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+        .header-contact a {
+            color: #ffd700; /* Жёлтый для ссылок */
+        }
+
+        .header-contact a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 15px rgba(152, 255, 152, 0.8);
+            text-decoration: none;
         }
         .header-contact {
             display: flex;
@@ -293,7 +312,7 @@
         .rails-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            touchscreen-align-items: center;
             background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
@@ -606,7 +625,7 @@
             .solutions-text.materials, .solutions-text.network, .solutions-text.services {
                 font-size: 1.8rem;
             }
-            .equipment-box, .product-card, .advantage-item {
+            .quipment-box, .product-card, .advantage-item {
                 padding: 15px;
                 margin: 10px 0;
                 max-width: 100%;
@@ -636,8 +655,7 @@
             .review-button {
                 padding: 6px 12px;
                 font-size: 10px;
-            }
-            .contacts-text, .footer-nav a {
+            }ё            .contacts-text, .footer-nav a {
                 font-size: 1rem;
             }
             .footer-copyright {
@@ -702,11 +720,12 @@
                 <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
                 <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
                 <span class="ms-3">
-                    <div class="dropdown">
+                    Время работы: Пн-Пт: 9:00–18:00
+                    <div class="dropdown profile-container">
                         <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-fill"></i>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
                             <li sec:authorize="isAnonymous()">
                                 <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
                             </li>
@@ -724,7 +743,6 @@
                             </li>
                         </ul>
                     </div>
-                    Время работы: Пн-Пт: 9:00–18:00
                 </span>
             </div>
         </div>
@@ -1033,7 +1051,7 @@
     <div class="d-flex align-items-center justify-content-center">
         <div>
             <h2 class="reviews-title">Нам ВАЖНЫ ваши отзывы!</h2>
-            <a href="https://www.google.ru/maps/place/%D0%9F%D0%BE%D0%B7%D0%B8%D1%82%D0%B8%D0%B2/@43.8066605,131.9397533,17z/data=!3m1!4b1!4m5!3m4!1s0x5fb2e8184ccba3dd:0x9a18c56ad65dd113!8m2!3d43.8066605!4d131.941942?shorturl=1" class="review-button">Оставить отзыв</a>
+            <a href="https://yandex.eu/maps/org/pozitiv/1082475283/reviews/?ll=131.942709%2C43.806543&mode=search&sctx=ZAAAAAgBEAAaKAoSCYVefxKfUyDAER0c7E0MsUpAEhIJJGO1%2BX%2BNL0ARkWCqmbVkFkAiBgABAgMEBSgKOABAollIAWoCcnWdAc3MzD2gAQCoAQC9AVxjbjnCAQWThpWEBIICIdCj0YHRgdGD0YDQuNC50YHQuiDQv9C%2B0LfQuNGC0LjQsooCAJICBTExNDI2mgIMZGVza3RvcC1tYXBz&sll=131.942709%2C43.806543&sspn=0.004293%2C0.002597&tab=reviews&text=%D0%A3%D1%81%D1%81%D1%83%D1%80%D0%B8%D0%B9%D1%81%D0%BA%20%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%B8%D0%B2&utm_source=share&z=18.35" class="review-button">Оставить отзыв</a>
         </div>
     </div>
 </div>
@@ -1050,7 +1068,7 @@
         <a href="/page/offices">Наши офисы</a>
         <a href="https://api.whatsapp.com/send?phone=78002225587">Написать нам</a>
     </div>
-    <p class="footer-copyright">© 2006-2025 ИП Малахов В.А.</p>
+    <p class="footer-copyright">© 2006-2025 ИП Малахо   3242в В.А.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

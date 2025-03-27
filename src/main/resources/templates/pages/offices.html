@@ -1,434 +1,444 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Наши офисы | Позитив</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #3a1e67;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-    }
-    a {
-      text-decoration: none;
-    }
-    .navbar-custom {
-      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-      border-bottom: 2px solid rgba(255, 215, 0, 0.2);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-      padding: 10px 15px;
-    }
-    .navbar-brand img {
-      max-height: 60px;
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
-    .navbar-brand:hover img {
-      transform: rotate(5deg) scale(1.1);
-      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
-    }
-    .header-contact {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-    }
-    .header-contact span {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-    }
-    .header-contact a {
-      color: #ffd700;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-      position: relative;
-    }
-    .header-contact a:hover {
-      color: #98FF98;
-      text-shadow: 0 0 15px rgba(152, 255, 152, 0.8);
-    }
-    .header-contact a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -5px;
-      left: 0;
-      background-color: #98FF98;
-      transition: width 0.3s ease;
-    }
-    .header-contact a:hover::after {
-      width: 100%;
-    }
-    .profile-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #fff;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      text-decoration: none;
-      margin: 0;
-      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
-    .profile-icon:hover {
-      transform: scale(1.1);
-      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
-      filter: brightness(1.2);
-    }
-    .dropdown-menu {
-      background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
-      border: 2px solid rgba(255, 215, 0, 0.2);
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
-      padding: 10px;
-      margin-top: 10px;
-    }
-    .dropdown-item {
-      color: #ffd700;
-      font-size: 16px;
-      padding: 8px 16px;
-      border-radius: 10px;
-      transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-      cursor: pointer;
-    }
-    .dropdown-item:hover {
-      color: #fff;
-      background: rgba(255, 215, 0, 0.2);
-      transform: scale(1.05);
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-    }
-    .nav-menu {
-      background: rgba(0, 0, 0, 0.1);
-      padding: 20px 0;
-    }
-    .nav-btn {
-      color: #ffd700;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 10px 20px;
-      border-radius: 15px;
-      background: rgba(255, 215, 0, 0.1);
-      transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-    }
-    .nav-btn:hover {
-      color: #fff;
-      background: rgba(75, 0, 130, 0.3);
-      text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-      transform: scale(1.05);
-    }
-    .offices-section {
-      padding: 40px 20px;
-      margin: 20px auto;
-      max-width: 1600px;
-      text-align: center;
-      animation: slideInUp 1.5s ease-out;
-    }
-    .office-block {
-      margin-bottom: 50px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      animation: fadeIn 1s ease-out;
-    }
-    .office-title {
-      color: #ffd700;
-      font-size: 2rem;
-      font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-      margin-bottom: 15px;
-    }
-    .office-info {
-      color: #fff;
-      font-size: 1.2rem;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-      line-height: 1.6;
-    }
-    .office-info a {
-      color: #ffd700;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-    }
-    .office-info a:hover {
-      color: #98FF98;
-      text-shadow: 0 0 10px rgba(152, 255, 152, 0.8);
-    }
-    .contacts-section {
-      padding: 60px 20px;
-      margin: 40px auto;
-      max-width: 1600px;
-      text-align: center;
-      background: linear-gradient(135deg, #4b0082, #000);
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
-      animation: slideInUp 1.5s ease-out;
-      border: 2px solid rgba(255, 215, 0, 0.3);
-    }
-    .contacts-title {
-      color: #ffd700;
-      font-size: 2.5rem;
-      font-weight: bold;
-      text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
-      margin-bottom: 20px;
-      animation: pulse 2s infinite;
-    }
-    .contacts-text {
-      color: #fff;
-      font-size: 1.2rem;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-      margin: 0.5rem 0;
-    }
-    .footer-nav {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-    .footer-nav a {
-      color: #ffd700;
-      font-size: 1rem;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-    }
-    .footer-nav a:hover {
-      color: #98FF98;
-      text-shadow: 0 0 10px rgba(152, 255, 152, 0.8);
-    }
-    .footer-copyright {
-      color: #fff;
-      font-size: 0.9rem;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-      margin-top: 1rem;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    @keyframes slideInUp {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Адаптация для мобильных устройств */
-    @media (max-width: 768px) {
-      .navbar-custom {
-        padding: 8px 10px;
-      }
-      .navbar-brand img {
-        max-height: 50px;
-      }
-      .header-contact {
-        flex-direction: column;
-        gap: 10px;
-        font-size: 14px;
-        text-align: center;
-      }
-      .profile-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-      }
-      .dropdown-item {
-        font-size: 14px;
-        padding: 6px 12px;
-      }
-      .nav-menu {
-        padding: 15px;
-      }
-      .nav-btn {
-        font-size: 16px;
-        padding: 8px 15px;
-        width: 100%;
-        text-align: center;
-      }
-      .offices-section {
-        padding: 30px 15px;
-      }
-      .office-block {
-        margin-bottom: 30px;
-        padding: 15px;
-      }
-      .office-title {
-        font-size: 1.5rem;
-      }
-      .office-info {
-        font-size: 1rem;
-      }
-      .contacts-section {
-        padding: 40px 15px;
-      }
-      .contacts-title {
-        font-size: 1.8rem;
-      }
-      .contacts-text {
-        font-size: 1rem;
-      }
-      .footer-nav {
-        gap: 15px;
-      }
-      .footer-nav a {
-        font-size: 0.9rem;
-      }
-      .footer-copyright {
-        font-size: 0.8rem;
-      }
-    }
-    @media (max-width: 576px) {
-      .navbar-brand img {
-        max-height: 40px;
-      }
-      .header-contact {
-        font-size: 12px;
-      }
-      .profile-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-      }
-      .dropdown-item {
-        font-size: 12px;
-        padding: 5px 10px;
-      }
-      .nav-btn {
-        font-size: 14px;
-        padding: 6px 12px;
-      }
-      .offices-section {
-        padding: 20px 10px;
-      }
-      .office-title {
-        font-size: 1.2rem;
-      }
-      .office-info {
-        font-size: 0.9rem;
-      }
-      .contacts-section {
-        padding: 30px 10px;
-      }
-      .contacts-title {
-        font-size: 1.5rem;
-      }
-      .contacts-text {
-        font-size: 0.9rem;
-      }
-      .footer-nav a {
-        font-size: 0.8rem;
-      }
-      .footer-copyright {
-        font-size: 0.7rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши офисы | Позитив</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #3a1e67;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+        }
+        .navbar-brand img {
+            max-height: 60px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .navbar-brand:hover img {
+            transform: rotate(5deg) scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        }
+        .header-contact {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        .header-contact span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        .header-contact a {
+            color: #ffd700;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+        .header-contact a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 15px rgba(152, 255, 152, 0.8);
+        }
+        .header-contact a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #98FF98;
+            transition: width 0.3s ease;
+        }
+        .header-contact a:hover::after {
+            width: 100%;
+        }
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            order: 1;
+        }
+        .profile-container .profile-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            color: #4b0082 !important; /* Фиолетовый человечек */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            text-decoration: none;
+            margin: 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .profile-container .profile-icon:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+        .profile-container .profile-icon i.bi-person-fill {
+            color: #4b0082 !important; /* Убеждаемся, что иконка фиолетовая */
+        }
+        .dropdown-menu {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
+            padding: 10px;
+            margin-top: 10px;
+            min-width: 200px;
+            right: 0;
+            left: auto;
+        }
+        .dropdown-item {
+            color: #ffd700;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+        .nav-menu {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+        }
+        .nav-btn {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        .nav-btn:hover {
+            color: #fff;
+            background: rgba(75, 0, 130, 0.3);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+        .offices-section {
+            padding: 40px 20px;
+            margin: 20px auto;
+            max-width: 1600px;
+            text-align: center;
+            animation: slideInUp 1.5s ease-out;
+        }
+        .office-block {
+            margin-bottom: 50px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            animation: fadeIn 1s ease-out;
+        }
+        .office-title {
+            color: #ffd700;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            margin-bottom: 15px;
+        }
+        .office-info {
+            color: #fff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            line-height: 1.6;
+        }
+        .office-info a {
+            color: #ffd700;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .office-info a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 10px rgba(152, 255, 152, 0.8);
+        }
+        .contacts-section {
+            padding: 60px 20px;
+            margin: 40px auto;
+            max-width: 1600px;
+            text-align: center;
+            background: linear-gradient(135deg, #4b0082, #000);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 30px rgba(75, 0, 130, 0.8);
+            animation: slideInUp 1.5s ease-out;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        .contacts-title {
+            color: #ffd700;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        .contacts-text {
+            color: #fff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            margin: 0.5rem 0;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-nav a {
+            color: #ffd700;
+            font-size: 1rem;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .footer-nav a:hover {
+            color: #98FF98;
+            text-shadow: 0 0 10px rgba(152, 255, 152, 0.8);
+        }
+        .footer-copyright {
+            color: #fff;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            margin-top: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 768px) {
+            .navbar-custom {
+                padding: 8px 10px;
+            }
+            .navbar-brand img {
+                max-height: 50px;
+            }
+            .header-contact {
+                flex-direction: column;
+                gap: 10px;
+                font-size: 14px;
+                text-align: center;
+            }
+            .profile-container .profile-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+            .dropdown-item {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            .nav-menu {
+                padding: 15px;
+            }
+            .nav-btn {
+                font-size: 16px;
+                padding: 8px 15px;
+                width: 100%;
+                text-align: center;
+            }
+            .offices-section {
+                padding: 30px 15px;
+            }
+            .office-block {
+                margin-bottom: 30px;
+                padding: 15px;
+            }
+            .office-title {
+                font-size: 1.5rem;
+            }
+            .office-info {
+                font-size: 1rem;
+            }
+            .contacts-section {
+                padding: 40px 15px;
+            }
+            .contacts-title {
+                font-size: 1.8rem;
+            }
+            .contacts-text {
+                font-size: 1rem;
+            }
+            .footer-nav {
+                gap: 15px;
+            }
+            .footer-nav a {
+                font-size: 0.9rem;
+            }
+            .footer-copyright {
+                font-size: 0.8rem;
+            }
+        }
+        @media (max-width: 576px) {
+            .navbar-brand img {
+                max-height: 40px;
+            }
+            .header-contact {
+                font-size: 12px;
+            }
+            .profile-container .profile-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            .dropdown-item {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+            .nav-btn {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            .offices-section {
+                padding: 20px 10px;
+            }
+            .office-title {
+                font-size: 1.2rem;
+            }
+            .office-info {
+                font-size: 0.9rem;
+            }
+            .contacts-section {
+                padding: 30px 10px;
+            }
+            .contacts-title {
+                font-size: 1.5rem;
+            }
+            .contacts-text {
+                font-size: 0.9rem;
+            }
+            .footer-nav a {
+                font-size: 0.8rem;
+            }
+            .footer-copyright {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#" th:href="@{/}">
-      <img th:src="@{/images/icon/oblozhka_pozitiv.png}" src="images/icon/oblozhka_pozitiv.png" alt="Позитив логотип" class="img-fluid">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <div class="ms-auto header-contact">
-        <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
-        <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
-        <span class="ms-3">
-                    <div class="dropdown">
-                        <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-fill"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
-                            <li sec:authorize="isAnonymous()">
-                                <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
-                            </li>
-                            <li sec:authorize="isAnonymous()">
-                                <a class="dropdown-item" th:href="@{/auth/login}">Войти в аккаунт</a>
-                            </li>
-                            <li sec:authorize="isAuthenticated() and hasAnyRole('USER','OWNER','ADMIN')">
-                                <a class="dropdown-item" th:href="@{/acc}">Личный кабинет</a>
-                            </li>
-                            <li sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                                <a class="dropdown-item" th:href="@{/admin}">Панель администратора</a>
-                            </li>
-                            <li sec:authorize="hasRole('OWNER')">
-                                <a class="dropdown-item" th:href="@{/owner}">Панель основателя</a>
-                            </li>
-                        </ul>
-                    </div>
-                    Время работы: Пн-Пт: 9:00–18:00
-                </span>
-      </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" th:href="@{/}">
+            <img th:src="@{/images/icon/oblozhka_pozitiv.png}" src="images/icon/oblozhka_pozitiv.png" alt="Позитив логотип" class="img-fluid">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="ms-auto header-contact">
+                <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
+                <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
+                <span class="ms-3">
+          Время работы: Пн-Пт: 9:00–18:00
+          <div class="dropdown profile-container">
+            <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-fill"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
+              <li sec:authorize="isAnonymous()">
+                <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
+              </li>
+              <li sec:authorize="isAnonymous()">
+                <a class="dropdown-item" th:href="@{/auth/login}">Войти в аккаунт</a>
+              </li>
+              <li sec:authorize="isAuthenticated() and hasAnyRole('USER','OWNER','ADMIN')">
+                <a class="dropdown-item" th:href="@{/acc}">Личный кабинет</a>
+              </li>
+              <li sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+                <a class="dropdown-item" th:href="@{/admin}">Панель администратора</a>
+              </li>
+              <li sec:authorize="hasRole('OWNER')">
+                <a class="dropdown-item" th:href="@{/owner}">Панель основателя</a>
+              </li>
+            </ul>
+          </div>
+        </span>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
 
 <div class="nav-menu">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navMenuContent">
-      <div class="d-flex justify-content-center flex-wrap gap-3 w-100">
-        <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
-        <a href="#" th:href="@{/offices}" class="nav-btn">Наши офисы</a>
-        <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
-      </div>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navMenuContent">
+            <div class="d-flex justify-content-center flex-wrap gap-3 w-100">
+                <a href="#" th:href="@{/}" class="nav-btn">Главная</a>
+                <a href="#" th:href="@{/offices}" class="nav-btn">Наши офисы</a>
+                <a href="#" th:href="@{/store}" class="nav-btn">Интернет-магазин</a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="offices-section">
-  <div class="office-block">
-    <h3 class="office-title">Позитив в Уссурийске</h3>
-    <p class="office-info">
-      <a href="mailto:site@pozitivrus.ru">site@pozitivrus.ru</a>,
-      <a href="tel:+74234244010">+7 (4234) 24-40-10</a> - сервисный центр,
-      <a href="tel:+74234244040">+7 (4234) 24-40-40</a>,
-      <a href="tel:+74234245555">+7 (4234) 24-55-55</a> - отдел продаж.
-      Улица Горького, дом 101.
-    </p>
-  </div>
+    <div class="office-block">
+        <h3 class="office-title">Позитив в Уссурийске</h3>
+        <p class="office-info">
+            <a href="mailto:site@pozitivrus.ru">site@pozitivrus.ru</a>,
+            <a href="tel:+74234244010">+7 (4234) 24-40-10</a> - сервисный центр,
+            <a href="tel:+74234244040">+7 (4234) 24-40-40</a>,
+            <a href="tel:+74234245555">+7 (4234) 24-55-55</a> - отдел продаж.
+            Улица Горького, дом 101.
+        </p>
+    </div>
 
-  <div class="office-block">
-    <h3 class="office-title">Позитив во Владивостоке</h3>
-    <p class="office-info">
-      <a href="mailto:vl@pozitivrus.ru">vl@pozitivrus.ru</a>,
-      <a href="tel:+74232005587">+7 (423) 200-55-87</a>.
-      Улица Гоголя, 4, 2 этаж, офис 26.
-    </p>
-  </div>
+    <div class="office-block">
+        <h3 class="office-title">Позитив во Владивостоке</h3>
+        <p class="office-info">
+            <a href="mailto:vl@pozitivrus.ru">vl@pozitivrus.ru</a>,
+            <a href="tel:+74232005587">+7 (423) 200-55-87</a>.
+            Улица Гоголя, 4, 2 этаж, офис 26.
+        </p>
+    </div>
 </div>
 
 <div class="contacts-section">
-  <h2 class="contacts-title">Наши контакты</h2>
-  <p class="contacts-text">Мы всегда на связи!</p>
-  <p class="contacts-text">Адрес: Приморский край, г. Уссурийск, ул. Горького, 101</p>
-  <p class="contacts-text">Тел.: 8 (423) 438-45-01 / 8 (423) 424-40-40</p>
-  <p class="contacts-text">Email: <a href="mailto:site@pozitivrus.ru" style="color: #ffd700; text-decoration: none;">site@pozitivrus.ru</a></p>
-  <div class="footer-nav">
-    <a href="/store">Ассортимент</a>
-    <a href="/page/offices">Магазины</a>
-    <a href="/page/offices">Наши офисы</a>
-    <a href="https://api.whatsapp.com/send?phone=78002225587">Написать нам</a>
-  </div>
-  <p class="footer-copyright">© 2006-2025 ИП Малахов В.А.</p>
+    <h2 class="contacts-title">Наши контакты</h2>
+    <p class="contacts-text">Мы всегда на связи!</p>
+    <p class="contacts-text">Адрес: Приморский край, г. Уссурийск, ул. Горького, 101</p>
+    <p class="contacts-text">Тел.: 8 (423) 438-45-01 / 8 (423) 424-40-40</p>
+    <p class="contacts-text">Email: <a href="mailto:site@pozitivrus.ru" style="color: #ffd700; text-decoration: none;">site@pozitivrus.ru</a></p>
+    <div class="footer-nav">
+        <a href="/store">Ассортимент</a>
+        <a href="/page/offices">Магазины</a>
+        <a href="/page/offices">Наши офисы</a>
+        <a href="https://api.whatsapp.com/send?phone=78002225587">Написать нам</a>
+    </div>
+    <p class="footer-copyright">© 2006-2025 ИП Малахов В.А.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

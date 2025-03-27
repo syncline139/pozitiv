@@ -68,26 +68,33 @@
         .header-contact a:hover::after {
             width: 100%;
         }
-        .profile-icon {
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            order: 1;
+        }
+        .profile-container .profile-icon {
             width: 60px;
             height: 60px;
             border-radius: 50%;
             background: #fff;
-            color: #000;
+            color: #4b0082 !important; /* Фиолетовый человечек */
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
             text-decoration: none;
             margin: 0;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
-        .profile-icon:hover {
+        .profile-container .profile-icon:hover {
             transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
             filter: brightness(1.2);
+        }
+        .profile-container .profile-icon i.bi-person-fill {
+            color: #4b0082 !important; /* Убеждаемся, что иконка фиолетовая */
         }
         .dropdown-menu {
             background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(0, 0, 0, 0.95));
@@ -96,6 +103,9 @@
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(75, 0, 130, 0.8);
             padding: 10px;
             margin-top: 10px;
+            min-width: 200px;
+            right: 0;
+            left: auto;
         }
         .dropdown-item {
             color: #ffd700;
@@ -249,7 +259,7 @@
                 font-size: 14px;
                 text-align: center;
             }
-            .profile-icon {
+            .profile-container .profile-icon {
                 width: 50px;
                 height: 50px;
                 font-size: 24px;
@@ -293,7 +303,7 @@
             .header-contact {
                 font-size: 12px;
             }
-            .profile-icon {
+            .profile-container .profile-icon {
                 width: 40px;
                 height: 40px;
                 font-size: 20px;
@@ -341,11 +351,12 @@
                 <span>Позвоните нам: <a href="tel:+74234384501">+7 (423) 438-45-01</a></span>
                 <span class="ms-3">Напишите нам в <a href="https://api.whatsapp.com/send?phone=78002225587" target="_blank">WhatsApp</a></span>
                 <span class="ms-3">
-                    <div class="dropdown">
+                    Время работы: Пн-Пт: 9:00–18:00
+                    <div class="dropdown profile-container">
                         <a class="profile-icon" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-fill"></i>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
                             <li sec:authorize="isAnonymous()">
                                 <a class="dropdown-item" th:href="@{/auth/registration}">Зарегистрироваться</a>
                             </li>
@@ -363,7 +374,6 @@
                             </li>
                         </ul>
                     </div>
-                    Время работы: Пн-Пт: 9:00–18:00
                 </span>
             </div>
         </div>
