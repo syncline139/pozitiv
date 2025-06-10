@@ -528,7 +528,7 @@
             <td th:text="${order.product.name}">Product Name</td>
             <td th:text="${order.orderDate}">2025-01-01</td>
             <td th:text="${order.quantity}">0</td>
-            <td th:text="${order.status}">new</td>
+            <td th:text="${order.status == 'new' ? 'Новый' : (order.status == 'processing' ? 'В обработке' : (order.status == 'completed' ? 'Завершен' : order.status))}">Status</td>
             <td>
                 <form th:action="@{/admin/updateStatus}" method="post" class="d-flex align-items-center gap-2">
                     <input type="hidden" name="orderId" th:value="${order.id}"/>

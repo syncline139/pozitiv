@@ -553,8 +553,8 @@
         <tr th:each="order : ${userOrders}">
             <td th:text="${order.id}">Order ID</td>
             <td th:text="${order.product.name}">Product Name</td>
-            <td th:text="${order.orderDate}">Order Date</td>
-            <td th:text="${order.status}">Status</td>
+            <td th:text="${#temporals.format(order.orderDate, 'dd:MM:yyyy')}">Order Date</td>
+            <td th:text="${order.status == 'new' ? 'Новый' : (order.status == 'processing' ? 'В обработке' : (order.status == 'completed' ? 'Завершен' : order.status))}">Status</td>
         </tr>
         </tbody>
     </table>
