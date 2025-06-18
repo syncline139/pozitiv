@@ -552,27 +552,25 @@
             </form>
         </div>
 
-        <div th:if="${userOrders != null and !userOrders.isEmpty()}">
-            <h2 class="profile-title">Мои заказы</h2>
-            <table class="orders-table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Товар</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="order : ${userOrders}">
-                    <td th:text="${order.id}">Order ID</td>
-                    <td th:text="${order.product.name}">Product Name</td>
-                    <td th:text="${#temporals.format(order.orderDate, 'dd:MM:yyyy')}">Order Date</td>
-                    <td th:text="${order.status == 'new' ? 'Новый' : (order.status == 'processing' ? 'В обработке' : (order.status == 'completed' ? 'Завершен' : order.status))}">Status</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <h2 class="profile-title">Мои заказы</h2>
+        <table class="orders-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Товар</th>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${userOrders}">
+                <td th:text="${order.id}">Order ID</td>
+                <td th:text="${order.product.name}">Product Name</td>
+                <td th:text="${#temporals.format(order.orderDate, 'dd:MM:yyyy')}">Order Date</td>
+                <td th:text="${order.status == 'new' ? 'Новый' : (order.status == 'processing' ? 'В обработке' : (order.status == 'completed' ? 'Завершен' : order.status))}">Status</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

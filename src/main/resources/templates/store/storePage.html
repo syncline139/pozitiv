@@ -573,5 +573,65 @@
         modal.show();
     }
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('table tr').forEach(row => {
+            const quantityCell = row.querySelector('td:nth-child(3)');
+            if (quantityCell && quantityCell.textContent.trim() === '0') {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Скрываем строки с нулевым количеством
+        document.querySelectorAll('table tr').forEach(row => {
+            const quantityCell = row.querySelector('td:nth-child(3)');
+            if (quantityCell && quantityCell.textContent.trim() === '0') {
+                row.style.display = 'none';
+            }
+        });
+
+        // Проверяем и корректируем ввод количества в реальном времени
+        document.querySelectorAll('.order-quantity').forEach(input => {
+            input.addEventListener('input', function() {
+                const value = parseInt(this.value);
+                const min = parseInt(this.min) || 1;
+                const max = parseInt(this.max);
+                if (isNaN(value) || value < min) {
+                    this.value = min;
+                } else if (value > max) {
+                    this.value = max;
+                }
+            });
+        });
+    });
+
+    function showOrderModal(productId) {
+        const orderQtyInput = document.getElementById('orderQty-' + productId);
+        const maxQty = parseInt(orderQtyInput.max);
+        let orderQty = parseInt(orderQtyInput.value) || 1;
+        if (orderQty > maxQty) {
+            orderQty = maxQty;
+            orderQtyInput.value = maxQty;
+        }
+        const productName = document.getElementById('productName-' + productId).value;
+        const productDesc = document.getElementById('productDesc-' + productId).value;
+        const productPrice = parseFloat(document.getElementById('productPrice-' + productId).value);
+        const totalPrice = (productPrice * orderQty).toFixed(2);
+
+        document.getElementById('modalProductName').textContent = productName;
+        document.getElementById('modalProductDesc').textContent = productDesc;
+        document.getElementById('modalOrderQty').textContent = orderQty;
+        document.getElementById('modalTotalPrice').textContent = totalPrice + ' ₽';
+
+        document.getElementById('modalProductId').value = productId;
+        document.getElementById('modalOrderQuantity').value = orderQty;
+
+        const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+        modal.show();
+    }
+</script>
 </body>
 </html>
