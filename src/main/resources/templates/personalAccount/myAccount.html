@@ -365,13 +365,26 @@
                 font-size: 0.8rem;
             }
             .orders-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+                width: 100%;
+                table-layout: fixed;
             }
             .orders-table th, .orders-table td {
                 font-size: 0.9rem;
-                padding: 10px;
+                padding: 10px 5px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            .orders-table th:nth-child(1), .orders-table td:nth-child(1) {
+                width: 15%;
+            }
+            .orders-table th:nth-child(2), .orders-table td:nth-child(2) {
+                width: 40%;
+            }
+            .orders-table th:nth-child(3), .orders-table td:nth-child(3) {
+                width: 25%;
+            }
+            .orders-table th:nth-child(4), .orders-table td:nth-child(4) {
+                width: 20%;
             }
         }
         @media (max-width: 576px) {
@@ -420,7 +433,7 @@
             }
             .orders-table th, .orders-table td {
                 font-size: 0.8rem;
-                padding: 8px;
+                padding: 8px 3px;
             }
         }
     </style>
@@ -479,88 +492,88 @@
             </div>
         </div>
     </div>
-</div>
+    </nav>
 
-<div class="profile-section">
-    <h2 class="profile-title">Личный кабинет</h2>
-    <div class="profile-info">
-        <p>Подробнее о вас:</p>
-        <p>Логин: <span th:text="${login}">Логин пользователя</span></p>
-        <p>Электронная почта: <span th:text="${email}">Электронная почта</span></p>
-        <p>Адрес проживания: <span th:text="${city}">Адрес пользователя</span></p>
-        <p>Ваше имя: <span th:text="${name}">Имя пользователя</span></p>
-        <p>Ваш номер телефона: <span th:text="${phone}">Номер пользователя</span></p>
+    <div class="profile-section">
+        <h2 class="profile-title">Личный кабинет</h2>
+        <div class="profile-info">
+            <p>Подробнее о вас:</p>
+            <p>Логин: <span th:text="${login}">Логин пользователя</span></p>
+            <p>Электронная почта: <span th:text="${email}">Электронная почта</span></p>
+            <p>Адрес проживания: <span th:text="${city}">Адрес пользователя</span></p>
+            <p>Ваше имя: <span th:text="${name}">Имя пользователя</span></p>
+            <p>Ваш номер телефона: <span th:text="${phone}">Номер пользователя</span></p>
+        </div>
+
+        <div class="button-group">
+            <button class="toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#profileFormCollapse" aria-expanded="false" aria-controls="profileFormCollapse">
+                Изменить личные данные
+            </button>
+            <button class="toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#passwordFormCollapse" aria-expanded="false" aria-controls="passwordFormCollapse">
+                Поменять пароль
+            </button>
+            <a th:href="@{/logout}" class="logout-btn">Выйти из аккаунта</a>
+        </div>
+
+        <div class="collapse" id="profileFormCollapse">
+            <form th:method="POST" th:action="@{/acc/updateProfile}" th:object="${userDTO}" class="profile-form">
+                <div class="form-group">
+                    <label for="city">Введите ваш адрес (на него будут приходить заказы):</label>
+                    <input type="text" th:field="*{city}" id="city" required/>
+                    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Ваше имя:</label>
+                    <input type="text" th:field="*{name}" id="name" required/>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Ваш номер телефона:</label>
+                    <input type="text" th:field="*{phone}" id="phone" required/>
+                    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></div>
+                </div>
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+
+        <div class="collapse" id="passwordFormCollapse">
+            <form th:method="POST" th:action="@{/acc/updatePassword}" th:object="${passwordChangeDTO}" class="password-form">
+                <div class="form-group">
+                    <label for="oldPassword">Введите ваш старый пароль:</label>
+                    <input type="password" th:field="*{oldPassword}" id="oldPassword" required/>
+                    <div th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Введите ваш новый пароль:</label>
+                    <input type="password" th:field="*{newPassword}" id="newPassword" required/>
+                    <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error"></div>
+                </div>
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+
+        <h2 class="profile-title">Мои заказы</h2>
+        <table class="orders-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Товар</th>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${userOrders}">
+                <td th:text="${order.id}">Order ID</td>
+                <td th:text="${order.product.name}">Product Name</td>
+                <td th:text="${#temporals.format(order.orderDate, 'dd:MM:yyyy')}">Order Date</td>
+                <td th:text="${order.status == 'new' ? 'Новый' : (order.status == 'processing' ? 'В обработке' : (order.status == 'completed' ? 'Завершен' : order.status))}">Status</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="button-group">
-        <button class="toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#profileFormCollapse" aria-expanded="false" aria-controls="profileFormCollapse">
-            Изменить личные данные
-        </button>
-        <button class="toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#passwordFormCollapse" aria-expanded="false" aria-controls="passwordFormCollapse">
-            Поменять пароль
-        </button>
-        <a th:href="@{/logout}" class="logout-btn">Выйти из аккаунта</a>
-    </div>
-
-    <div class="collapse" id="profileFormCollapse">
-        <form th:method="POST" th:action="@{/acc/updateProfile}" th:object="${userDTO}" class="profile-form">
-            <div class="form-group">
-                <label for="city">Введите ваш адрес (на него будут приходить заказы):</label>
-                <input type="text" th:field="*{city}" id="city" required/>
-                <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="error"></div>
-            </div>
-            <div class="form-group">
-                <label for="name">Ваше имя:</label>
-                <input type="text" th:field="*{name}" id="name" required/>
-                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
-            </div>
-            <div class="form-group">
-                <label for="phone">Ваш номер телефона:</label>
-                <input type="text" th:field="*{phone}" id="phone" required/>
-                <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></div>
-            </div>
-            <button type="submit">Сохранить</button>
-        </form>
-    </div>
-
-    <div class="collapse" id="passwordFormCollapse">
-        <form th:method="POST" th:action="@{/acc/updatePassword}" th:object="${passwordChangeDTO}" class="password-form">
-            <div class="form-group">
-                <label for="oldPassword">Введите ваш старый пароль:</label>
-                <input type="password" th:field="*{oldPassword}" id="oldPassword" required/>
-                <div th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" class="error"></div>
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Введите ваш новый пароль:</label>
-                <input type="password" th:field="*{newPassword}" id="newPassword" required/>
-                <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error"></div>
-            </div>
-            <button type="submit">Сохранить</button>
-        </form>
-    </div>
-
-    <h2 class="profile-title">Мои заказы</h2>
-    <table class="orders-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Товар</th>
-            <th>Дата</th>
-            <th>Статус</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${userOrders}">
-            <td th:text="${order.id}">Order ID</td>
-            <td th:text="${order.product.name}">Product Name</td>
-            <td th:text="${#temporals.format(order.orderDate, 'dd:MM:yyyy')}">Order Date</td>
-            <td th:text="${order.status == 'new' ? 'Новый' : (order.status == 'processing' ? 'В обработке' : (order.status == 'completed' ? 'Завершен' : order.status))}">Status</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
